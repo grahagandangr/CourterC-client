@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
+import { View, Text, Image, TouchableOpacity } from "react-native";
 import tw from "twrnc";
 import { AntDesign, Ionicons } from "@expo/vector-icons";
 
