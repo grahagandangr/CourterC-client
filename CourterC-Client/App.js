@@ -4,7 +4,10 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
 import tw from "twrnc";
 import HomePage from "./screens/Home";
+import Register from "./screens/Register";
 import { NavigationContainer } from "@react-navigation/native";
+import Login from "./screens/Login";
+import Landing from "./screens/Landing";
 
 const Tab = createBottomTabNavigator();
 
@@ -14,7 +17,7 @@ export default function App() {
       <Tab.Navigator>
         <Tab.Screen
           name="Home"
-          component={HomePage}
+          component={Landing}
           options={{
             headerShown: false,
             tabBarShowLabel: false,

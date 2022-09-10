@@ -7,8 +7,8 @@ import CourtCard from "../components/CourtCard";
 
 export default function HomePage() {
   return (
-    <SafeAreaView style={tw`flex items-center justify-center`}>
-      <CourtCard></CourtCard>
+    <SafeAreaView style={tw`h-full m-auto`}>
+      <View style={tw`m-auto`}></View>
     </SafeAreaView>
   );
 }
