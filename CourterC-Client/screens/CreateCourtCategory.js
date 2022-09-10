@@ -1,19 +1,18 @@
-import { View, Text, Image, Dimensions, TextInput, TouchableOpacity, StyleSheet, Button, ScrollView } from "react-native";
+import { View, Text, Image, Dimensions, TextInput, TouchableOpacity, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import tw from "twrnc";
 
-export default function CreateCourt({ navigation }) {
+export default function CreateCourtCategory({ navigation }) {
   const windowWidth = Dimensions.get("window").width;
   const windowHeight = Dimensions.get("window").height;
 
   const addCourt = () => {
-    navigation.navigate("CreateCourtCategory");
+    navigation.navigate("TabOwner");
   };
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView >
-        <Text style={tw`text-3xl text-center font-bold my-5 text-slate-800`}>Create Court</Text>
+        <Text style={tw`text-3xl font-bold my-5 text-slate-800`}>Create Court</Text>
       <View style={tw` mx-auto justify-center `}>
 
         <View style={tw`w-80 rounded-3xl mx-auto`}>
@@ -53,8 +52,6 @@ export default function CreateCourt({ navigation }) {
             keyboardType="default"
           />
         </View>
-        <Text style={tw`text-xl  my-3 text-slate-800`}>Image</Text> 
-
         <TouchableOpacity
           onPress={addCourt}
           style={tw`bg-blue-600 h-11 mx-auto my-4 rounded-xl`}
@@ -62,8 +59,7 @@ export default function CreateCourt({ navigation }) {
           <Text style={tw`text-xl text-slate-300 w-80 text-center my-auto font-bold`}>Add your Court</Text>
         </TouchableOpacity>
       </View>
-      </ScrollView>
-     </SafeAreaView>
+    </SafeAreaView>
   );
 }
 
