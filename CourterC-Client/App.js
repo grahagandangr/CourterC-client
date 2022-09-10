@@ -12,6 +12,7 @@ import OrderListPage from './screens/OrderListPage';
 import { AntDesign } from '@expo/vector-icons';
 import { NavigationContainer } from '@react-navigation/native';
 
+
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
@@ -94,8 +95,9 @@ export default function App() {
               <View style={tw`items-center justify-center content-center`}>
               <Ionicons name="ios-person-circle-outline" size={19} color="gray" />
               </View>
-            )
-          }}/>
+            ),
+          }}
+        />
       </Tab.Navigator>
     </NavigationContainer>
   );
