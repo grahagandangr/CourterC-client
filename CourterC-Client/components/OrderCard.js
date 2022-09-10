@@ -30,9 +30,11 @@ const OrderCard = () => {
               >
                 Finished
               </Text>
-              <Text style={tw`ml-1 mt-1 text-sm text-orange-500 font-bold`}>Nama Lapanagan</Text>
+              <Text style={tw`ml-1 text-sm text-orange-500 font-bold`}>Nama Lapanagan</Text>
               <Text style={tw`ml-1 text-xs text-gray-500`}>26 Jan 2022 = 07:00 - 09:00</Text>
-              <Text style={tw`ml-1 text-xs text-gray-500 mt-1`}>Rp. 40.000</Text>
+              <Text style={tw`ml-1 text-xs text-gray-500`}>Badminton</Text>
+
+              <Text style={tw`ml-1 text-xs text-gray-500`}>Rp. 40.000</Text>
               <TouchableOpacity
                 style={tw`bg-red-500 ml-1 mt-2 content-center absolute bottom-1 justify-center items-center flex flex-row rounded-full py-1 px-2`}
               >

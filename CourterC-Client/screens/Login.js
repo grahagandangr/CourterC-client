@@ -2,9 +2,13 @@ import { View, Text, Image, Dimensions, TextInput, TouchableOpacity, StyleSheet 
 import { SafeAreaView } from "react-native-safe-area-context";
 import tw from "twrnc";
 
-export default function Login() {
+export default function Login({navigation}) {
   const windowWidth = Dimensions.get("window").width;
   const windowHeight = Dimensions.get("window").height;
+
+  const LoginHandler = () => {
+      navigation.navigate("TabCustomer")
+  } 
 
   return (
     <SafeAreaView style={styles.container}>
@@ -32,6 +36,7 @@ export default function Login() {
           />
         </View>
         <TouchableOpacity
+          onPress={LoginHandler}
           style={tw`bg-blue-600 h-10 mx-auto my-4 rounded-xl`}
           // onPress={}
         >
@@ -39,7 +44,9 @@ export default function Login() {
         </TouchableOpacity>
 
         <Text style={tw`text-base text-slate-800 w-80 text-center font-bold`}>
-          Don`t have an account? <Text style={tw`text-blue-600 underline`}>Register Here</Text>
+          Don`t have an account? <Text onPress={() => {
+            navigation.navigate("Register")
+          }} style={tw`text-blue-600 underline`}>Register Here</Text>
         </Text>
       </View>
     </SafeAreaView>
