@@ -17,7 +17,6 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import CourtCard from "../components/CourtCard";
 
 const Home = ({navigation}) => {
-  console.log("hai");
   const courts = [
     {
       id:1,

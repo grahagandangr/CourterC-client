@@ -7,7 +7,7 @@ export default function LoginOwner({navigation}) {
   const windowHeight = Dimensions.get("window").height;
 
   const LoginHandler = () => {
-      navigation.navigate("TabCustomer")
+      navigation.navigate("TabOwner")
   } 
 
   return (

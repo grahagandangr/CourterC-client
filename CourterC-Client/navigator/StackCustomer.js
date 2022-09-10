@@ -19,6 +19,9 @@ const StackCustomer = () => {
         component={DetailCourt}
         options={{
           headerShown: true,
+          headerTransparent: true,
+          headerLargeTitle : false,
+          title: "",
         }}
       />
       <Stack.Screen

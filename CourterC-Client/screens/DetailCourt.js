@@ -10,6 +10,9 @@ import { AntDesign, Ionicons } from "@expo/vector-icons";
 import { Fontisto } from "@expo/vector-icons";
 import pointMarker from "../assets/pointM.png";
 import MapViewDirections from "react-native-maps-directions";
+import personPoint from "../assets/personPoint.png"
+import { SafeAreaView } from "react-native-safe-area-context";
+
 
 export default function DetailCourt() {
   const windowWidth = Dimensions.get("window").width;
@@ -29,7 +32,6 @@ export default function DetailCourt() {
         setErrorMsg("Permission to access location was denied");
         return;
       }
-      console.log(location);
     })();
   }, []);
 
@@ -47,17 +49,18 @@ export default function DetailCourt() {
     .catch((e) => console.log(e));
 
   return (
+    <SafeAreaView>
     <View style={tw`w-full h-full content-center items-center`}>
       {location.latitude === 0 ? (
         <View
-          style={{ width: windowWidth, height: windowHeight * 0.3, justifyContent: "center", alignItems: "center" }}
+          style={{ width: windowWidth, height: windowHeight * 0.4, justifyContent: "center", alignItems: "center" }}
         >
           <ActivityIndicator size="large" color="00ff00" />
         </View>
       ) : (
         <MapView
           // style={tw`w-full h-full content-center items-center justify-center`}
-          style={{ width: windowWidth, height: windowHeight * 0.3, justifyContent: "center", alignItems: "center" }}
+          style={{ width: windowWidth, height: windowHeight * 0.4, justifyContent: "center", alignItems: "center" }}
           initialRegion={{
             latitude: location.latitude,
             longitude: location.longitude,
@@ -70,7 +73,7 @@ export default function DetailCourt() {
               latitude: location.latitude,
               longitude: location.longitude,
             }}
-            image={pointMarker}
+            image={personPoint}
             anchor={{ x: 0.5, y: 0.5 }}
           />
           <Marker
@@ -81,16 +84,16 @@ export default function DetailCourt() {
             image={pointMarker}
             anchor={{ x: 0.5, y: 0.5 }}
           />
-          {/* <MapViewDirections
+          <MapViewDirections
             origin={{ latitude: -7.28023, longitude: 112.758865 }}
             destination={{ latitude: -7.29317371502, longitude: 112.76252713 }}
-            apikey="AIzaSyD50iiB72cNDREeGDWGWg-X7h_qJGgJXrg"
-            strokeWidth={2}
-            strokeColor="black"
-          /> */}
+            apikey="AIzaSyCC8DuJiwmnfvfXzx4H9f_Rqt9WxP7s3iE"
+            strokeWidth={5}
+            strokeColor="#0284c7"
+          />
         </MapView>
       )}
-      <View style={{ width: windowWidth, height: windowHeight * 0.7, backgroundColor: "white" }}>
+      <View style={{ width: windowWidth, height: windowHeight * 0.6, backgroundColor: "white" }}>
         <ScrollView>
           <View style={tw`flex flex-row mt-4 ml-3`}>
             <EvilIcons name="location" size={20} color="#f97316" style={tw``} />
@@ -120,5 +123,6 @@ export default function DetailCourt() {
         </ScrollView>
       </View>
     </View>
+    </SafeAreaView>
   );
 }
