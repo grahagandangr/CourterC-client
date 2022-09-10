@@ -14,7 +14,7 @@ import tw from "twrnc";
 import { EvilIcons } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import CourtCard from "../components/Courtcard";
+import CourtCard from "../components/CourtCard";
 
 const Home = ({navigation}) => {
   console.log("hai");
