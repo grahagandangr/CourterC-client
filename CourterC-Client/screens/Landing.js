@@ -35,18 +35,18 @@ export default function Landing() {
       <View style={tw`my-auto mx-auto justify-center items-center`}>
         <FadeInView>
           <Image
-            style={{ width: windowWidth * 0.3, height: windowHeight * 0.14 }}
+            style={{ width: windowWidth * 0.48, height: windowHeight * 0.185 }}
             source={require("../assets/CourterC_Transparent.png")}
           />
         </FadeInView>
         <FadeInView style={tw`text-center justify-center items-center mt-3`}>
           <Text style={tw`text-3xl font-bold my-2 text-slate-800`}>Are you</Text>
           <TouchableOpacity>
-            <Text style={tw`text-3xl font-bold my-2 text-blue-600 underline`}>Court Owner</Text>
+            <Text style={tw`text-3xl font-bold my-2 text-blue-600`}>Court Owner</Text>
           </TouchableOpacity>
           <Text style={tw`text-3xl font-bold my-2 text-slate-800`}>or</Text>
           <TouchableOpacity>
-            <Text style={tw`text-3xl font-bold my-2 text-blue-600 underline`}>Court Renter</Text>
+            <Text style={tw`text-3xl font-bold my-2 text-blue-600`}>Court Renter</Text>
           </TouchableOpacity>
         </FadeInView>
       </View>

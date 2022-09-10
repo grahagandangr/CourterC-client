@@ -18,7 +18,7 @@ export default function Register() {
     >
       <View style={tw`my-auto mx-auto justify-center items-center`}>
         <Image
-          style={{ width: windowWidth * 0.3, height: windowHeight * 0.14 }}
+          style={{ width: windowWidth * 0.48, height: windowHeight * 0.185 }}
           source={require("../assets/CourterC_Transparent.png")}
         />
         <Text style={tw`text-3xl font-bold my-5 text-slate-800`}>Hello, Welcome!</Text>
