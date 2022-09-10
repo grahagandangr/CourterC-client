@@ -2,12 +2,14 @@ import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 import tw from "twrnc";
 import { AntDesign, Ionicons } from "@expo/vector-icons";
 
-export default function CourtCard({navigation}) {
+export default function CourtCard({ navigation }) {
   return (
     <>
-      <TouchableOpacity onPress={() => {
-         navigation.navigate("Detail")
-      }}>
+      <TouchableOpacity
+        onPress={() => {
+          navigation.navigate("DetailCourt");
+        }}
+      >
         <View style={tw`p-3`}>
           <View style={tw`bg-white rounded-xl shadow-lg`}>
             <Image

@@ -2,13 +2,13 @@ import { View, Text, Image, Dimensions, TextInput, TouchableOpacity, StyleSheet 
 import { SafeAreaView } from "react-native-safe-area-context";
 import tw from "twrnc";
 
-export default function CreateCourt({ navigation }) {
+export default function LoginOwner({navigation}) {
   const windowWidth = Dimensions.get("window").width;
   const windowHeight = Dimensions.get("window").height;
 
   const LoginHandler = () => {
-    navigation.navigate("TabCustomer");
-  };
+      navigation.navigate("TabCustomer")
+  } 
 
   return (
     <SafeAreaView style={styles.container}>
@@ -17,7 +17,7 @@ export default function CreateCourt({ navigation }) {
           style={{ width: windowWidth * 0.48, height: windowHeight * 0.185 }}
           source={require("../assets/CourterC_Transparent.png")}
         />
-        <Text style={tw`text-3xl font-bold my-5 text-slate-800`}>Create Court</Text>
+        <Text style={tw`text-3xl font-bold my-5 text-slate-800`}>Hello, Welcome Back!</Text>
         <View style={tw`w-80 rounded-3xl mx-auto`}>
           <TextInput
             style={tw`w-full h-10 mx-auto my-3 px-4 rounded-xl bg-white text-xl shadow-lg`}
@@ -44,15 +44,9 @@ export default function CreateCourt({ navigation }) {
         </TouchableOpacity>
 
         <Text style={tw`text-base text-slate-800 w-80 text-center font-bold`}>
-          Don`t have an account?{" "}
-          <Text
-            onPress={() => {
-              navigation.navigate("Register");
-            }}
-            style={tw`text-blue-600 underline`}
-          >
-            Register Here
-          </Text>
+          Don`t have an account? <Text onPress={() => {
+            navigation.navigate("RegisterOwner")
+          }} style={tw`text-blue-600 underline`}>Register Here</Text>
         </Text>
       </View>
     </SafeAreaView>
