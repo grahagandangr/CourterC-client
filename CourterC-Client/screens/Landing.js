@@ -2,8 +2,10 @@ import { View, Text, Image, Dimensions, TextInput, TouchableOpacity, StyleSheet,
 import { SafeAreaView } from "react-native-safe-area-context";
 import tw from "twrnc";
 import { useEffect, useRef } from "react";
+import { useNavigation } from "@react-navigation/native";
 
 const FadeInView = (props) => {
+  
   const fadeAnim = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
@@ -26,7 +28,7 @@ const FadeInView = (props) => {
   );
 };
 
-export default function Landing() {
+export default function Landing({navigation}) {
   const windowWidth = Dimensions.get("window").width;
   const windowHeight = Dimensions.get("window").height;
 
@@ -35,18 +37,26 @@ export default function Landing() {
       <View style={tw`my-auto mx-auto justify-center items-center`}>
         <FadeInView>
           <Image
-            style={{ width: windowWidth * 0.48, height: windowHeight * 0.185 }}
+            style={{ width: windowWidth * 0.48, height: windowHeight * 0.185}}
             source={require("../assets/CourterC_Transparent.png")}
           />
         </FadeInView>
         <FadeInView style={tw`text-center justify-center items-center mt-3`}>
           <Text style={tw`text-3xl font-bold my-2 text-slate-800`}>Are you</Text>
-          <TouchableOpacity>
-            <Text style={tw`text-3xl font-bold my-2 text-blue-600`}>Court Owner</Text>
+          <TouchableOpacity onPress={() => {
+            navigation.navigate("Owner", {
+              User: 1,
+            })
+          }}>
+            <Text style={tw`text-3xl font-bold my-2 text-blue-600`}>Owner</Text>
           </TouchableOpacity>
           <Text style={tw`text-3xl font-bold my-2 text-slate-800`}>or</Text>
-          <TouchableOpacity>
-            <Text style={tw`text-3xl font-bold my-2 text-blue-600`}>Court Renter</Text>
+          <TouchableOpacity onPress={() => {
+            navigation.navigate("Customer", {
+              User: 2,
+            })
+          }}>
+            <Text style={tw`text-3xl font-bold my-2 text-blue-600`}>Customer</Text>
           </TouchableOpacity>
         </FadeInView>
       </View>
