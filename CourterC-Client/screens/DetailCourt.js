@@ -1,15 +1,7 @@
 import * as React from "react";
 import MapView from "react-native-maps";
 import { Marker } from "react-native-maps";
-import {
-  StyleSheet,
-  Text,
-  View,
-  Dimensions,
-  ActivityIndicator,
-  ScrollView,
-  TouchableOpacity,
-} from "react-native";
+import { StyleSheet, Text, View, Dimensions, ActivityIndicator, ScrollView, TouchableOpacity } from "react-native";
 import * as Location from "expo-location";
 import { useState, useEffect } from "react";
 import tw from "twrnc";
@@ -20,6 +12,9 @@ import pointMarker from "../assets/pointM.png";
 import MapViewDirections from "react-native-maps-directions";
 
 export default function DetailCourt() {
+  const windowWidth = Dimensions.get("window").width;
+  const windowHeight = Dimensions.get("window").height;
+
   const [location, setLocation] = useState({
     latitude: 0,
     longitude: 0,
@@ -52,12 +47,17 @@ export default function DetailCourt() {
     .catch((e) => console.log(e));
 
   return (
-    <View style={tw`w-full h-full content-center items-center justify-center`}>
+    <View style={tw`w-full h-full content-center items-center`}>
       {location.latitude === 0 ? (
-        <ActivityIndicator size="large" color="00ff00" />
+        <View
+          style={{ width: windowWidth, height: windowHeight * 0.3, justifyContent: "center", alignItems: "center" }}
+        >
+          <ActivityIndicator size="large" color="00ff00" />
+        </View>
       ) : (
         <MapView
-          style={tw`w-full h-full content-center items-center justify-center`}
+          // style={tw`w-full h-full content-center items-center justify-center`}
+          style={{ width: windowWidth, height: windowHeight * 0.3, justifyContent: "center", alignItems: "center" }}
           initialRegion={{
             latitude: location.latitude,
             longitude: location.longitude,
@@ -90,21 +90,16 @@ export default function DetailCourt() {
           /> */}
         </MapView>
       )}
-      <View style={tw`w-full h-full bg-white shadow-xl rounded-t-2xl`}>
+      <View style={{ width: windowWidth, height: windowHeight * 0.7, backgroundColor: "white" }}>
         <ScrollView>
           <View style={tw`flex flex-row mt-4 ml-3`}>
             <EvilIcons name="location" size={20} color="#f97316" style={tw``} />
-            <Text style={tw`text-xs text-orange-500 font-semibold`}>
-              Location
-            </Text>
+            <Text style={tw`text-xs text-orange-500 font-semibold`}>Location</Text>
           </View>
           <Text style={tw`ml-4 font-semibold text-xl mb-1`}>Nama Lapangan</Text>
-          <Text style={tw`ml-4 mr-4 text-xs text-gray-500 mb-1 font-semibold`}>
-            09:00 - 20:00
-          </Text>
+          <Text style={tw`ml-4 mr-4 text-xs text-gray-500 mb-1 font-semibold`}>09:00 - 20:00</Text>
           <Text style={tw`ml-4 mr-4 text-xs text-gray-500 font-semibold`}>
-            Description lapangan
-            dadadawdwadawdawdawdawdawdawdawdawdawdawdawdadwadwadawdaw
+            Description lapangan dadadawdwadawdawdawdawdawdawdawdawdawdawdawdadwadwadawdaw
           </Text>
           <View style={tw`flex-row mt-2 ml-4`}>
             <Text
@@ -112,11 +107,8 @@ export default function DetailCourt() {
             >
               <AntDesign name="star" size={12} color="#ea580c" /> 4.6
             </Text>
-            <Text
-              style={tw`text-xs rounded-lg bg-orange-300 mx-1 justify-center items-center text-center p-1`}
-            >
-              <Ionicons name="location-outline" size={12} color="black" /> 1/2
-              km
+            <Text style={tw`text-xs rounded-lg bg-orange-300 mx-1 justify-center items-center text-center p-1`}>
+              <Ionicons name="location-outline" size={12} color="black" /> 1/2 km
             </Text>
           </View>
           <TouchableOpacity

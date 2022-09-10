@@ -1,13 +1,15 @@
-import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
+import { View, Text, Image, TouchableOpacity } from "react-native";
 import tw from "twrnc";
 import { AntDesign, Ionicons } from "@expo/vector-icons";
 
-export default function CourtCard({navigation}) {
+export default function CourtCard({ navigation }) {
   return (
     <>
-      <TouchableOpacity onPress={() => {
-         navigation.navigate("Detail")
-      }}>
+      <TouchableOpacity
+        onPress={() => {
+          navigation.navigate("DetailCourt");
+        }}
+      >
         <View style={tw`p-3`}>
           <View style={tw`bg-white rounded-xl shadow-lg`}>
             <Image
@@ -23,10 +25,10 @@ export default function CourtCard({navigation}) {
                 ultricies vitae. Mauris interdum, est sit amet fringilla vulputate, urna.
               </Text>
               <View style={tw`flex-row mt-2`}>
-                <Text style={tw`text-sm rounded-lg bg-blue-200 mx-1 w-14 justify-center items-center text-center p-1`}>
+                <Text style={tw`text-sm rounded-lg bg-gray-200 mx-1 w-14 justify-center items-center text-center p-1`}>
                   <AntDesign name="star" size={14} color="orange" /> 4.6
                 </Text>
-                <Text style={tw`text-sm rounded-lg bg-blue-200 mx-1 w-20 justify-center items-center text-center p-1`}>
+                <Text style={tw`text-sm rounded-lg bg-gray-200 mx-1 w-20 justify-center items-center text-center p-1`}>
                   <Ionicons name="location-outline" size={14} color="black" /> 1/2 km
                 </Text>
               </View>
