@@ -5,6 +5,8 @@ import TabCustomer from "./TabCustomer";
 import Home from "../screens/Home";
 import DetailCourt from "../screens/DetailCourt";
 import Cart from "../screens/Cart";
+import TopUpBalance from "../screens/TopUpBalance";
+import MidtransWebView from "../screens/MidtransWebView";
 
 const Stack = createNativeStackNavigator();
 
@@ -20,13 +22,30 @@ const StackCustomer = () => {
         options={{
           headerShown: true,
           headerTransparent: true,
-          headerLargeTitle : false,
+          headerLargeTitle: false,
           title: "",
         }}
       />
       <Stack.Screen
         name="Cart"
         component={Cart}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="TopUpBalance"
+        component={TopUpBalance}
+        options={{
+          headerShown: true,
+          headerTransparent: true,
+          headerLargeTitle: false,
+          title: "",
+        }}
+      />
+      <Stack.Screen
+        name="MidtransWebView"
+        component={MidtransWebView}
         options={{
           headerShown: false,
         }}
