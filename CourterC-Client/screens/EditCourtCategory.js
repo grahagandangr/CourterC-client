@@ -1,6 +1,6 @@
 import { View, Text, Image, Dimensions, TextInput, TouchableOpacity, StyleSheet, Button,Picker } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import SelectDropdown from 'react-native-select-dropdown'
+
 import tw from "twrnc";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
@@ -42,54 +42,7 @@ export default function CreateCourtCategory({ navigation }) {
         <Picker.Item label="Java" value="java" />
         <Picker.Item label="JavaScript" value="js" />
       </Picker>
-          <SelectDropdown
-              data={countries}
-              // defaultValueByIndex={1}
-              // defaultValue={{
-              //   title: 'England',
-              //   image: require('./Images/England.jpg'),
-              // }}
-              onSelect={(selectedItem, index) => {
-                console.log(selectedItem, index);
-              }}
-              buttonStyle={styles.dropdown3BtnStyle}
-              renderCustomizedButtonChild={(selectedItem, index) => {
-                return (
-                  <View style={styles.dropdown3BtnChildStyle}>
-                    {selectedItem ? (
-                      <Image source={"https://raw.githubusercontent.com/AdelRedaa97/react-native-select-dropdown/master/examples/Images/Australia.png"} style={styles.dropdown3BtnImage} />
-                    ) : (
-                      <Image source={"https://raw.githubusercontent.com/AdelRedaa97/react-native-select-dropdown/master/examples/Images/Australia.png"} style={styles.dropdown3BtnImage} />
-                    )}
-                    <Text style={styles.dropdown3BtnTxt}>{selectedItem ? selectedItem.title : 'Select Sport'}</Text>
-                  </View>
-                );
-              }}
-              dropdownStyle={styles.dropdown3DropdownStyle}
-              rowStyle={styles.dropdown3RowStyle}
-              renderCustomizedRowChild={(item, index) => {
-                return (
-                  <View style={styles.dropdown3RowChildStyle}>
-                    <MaterialCommunityIcons
-                  name="basketball"
-                  size={20}
-                  color="#fb923c"
-                />
-                    <Text style={styles.dropdown3RowTxt}>{item}</Text>
-                  </View>
-                );
-              }}
-              renderDropdownIcon={isOpened => {
-                return <FontAwesome name={isOpened ? 'chevron-up' : 'chevron-down'} color={'#444'} size={18} />;
-              }}
-              />
-          <TextInput
-            style={tw`w-full h-10 mx-auto my-3 px-4 rounded-xl bg-white text-xl shadow-lg`}
-            // onChangeText={}
-            // value={}
-            placeholder="Price"
-            keyboardType="numeric"
-          />
+
 
         </View>
         <TouchableOpacity

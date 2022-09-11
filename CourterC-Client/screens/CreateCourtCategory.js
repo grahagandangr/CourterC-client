@@ -1,6 +1,8 @@
-import { View, Text, Image, Dimensions, TextInput, TouchableOpacity, StyleSheet, Button,Picker } from "react-native";
+import { View, Text, Image, Dimensions, TextInput, TouchableOpacity, StyleSheet, Button } from "react-native";
+import { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import SelectDropdown from 'react-native-select-dropdown'
+// import SelectDropdown from 'react-native-select-dropdown'
+import {Picker} from '@react-native-picker/picker';
 import tw from "twrnc";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
@@ -19,77 +21,57 @@ const countries = [
   'Argentina',
   'India',
 ];
+
 export default function CreateCourtCategory({ navigation }) {
   const windowWidth = Dimensions.get("window").width;
   const windowHeight = Dimensions.get("window").height;
-
+  
+  const [selectedSport, setSelectedSport] = useState('');
+  const [warning , setWarning] = useState(false)
   const addCourt = () => {
-    navigation.navigate("TabOwner");
+    if(selectedSport){
+      navigation.navigate("TabOwner");
+      setWarning(false)
+    }else{
+      setWarning(true)
+    }
   };
-
   return (
     <SafeAreaView style={styles.container}>
         <Text style={tw`text-2xl font-bold my-5 text-slate-800`}>Insert Your Court Category</Text>
       <View style={tw` mx-auto justify-center `}>
 
         <View style={tw`w-80 rounded-3xl mx-auto`}>
-
-        <Picker
-        selectedValue={selectedValue}
-        style={{ height: 50, width: 150 }}
-        onValueChange={(itemValue, itemIndex) => setSelectedValue(itemValue)}
-      >
-        <Picker.Item label="Java" value="java" />
-        <Picker.Item label="JavaScript" value="js" />
-      </Picker>
-          <SelectDropdown
-              data={countries}
-              // defaultValueByIndex={1}
-              // defaultValue={{
-              //   title: 'England',
-              //   image: require('./Images/England.jpg'),
-              // }}
-              onSelect={(selectedItem, index) => {
-                console.log(selectedItem, index);
-              }}
-              buttonStyle={styles.dropdown3BtnStyle}
-              renderCustomizedButtonChild={(selectedItem, index) => {
-                return (
-                  <View style={styles.dropdown3BtnChildStyle}>
-                    {selectedItem ? (
-                      <Image source={"https://raw.githubusercontent.com/AdelRedaa97/react-native-select-dropdown/master/examples/Images/Australia.png"} style={styles.dropdown3BtnImage} />
-                    ) : (
-                      <Image source={"https://raw.githubusercontent.com/AdelRedaa97/react-native-select-dropdown/master/examples/Images/Australia.png"} style={styles.dropdown3BtnImage} />
-                    )}
-                    <Text style={styles.dropdown3BtnTxt}>{selectedItem ? selectedItem.title : 'Select Sport'}</Text>
-                  </View>
-                );
-              }}
-              dropdownStyle={styles.dropdown3DropdownStyle}
-              rowStyle={styles.dropdown3RowStyle}
-              renderCustomizedRowChild={(item, index) => {
-                return (
-                  <View style={styles.dropdown3RowChildStyle}>
-                    <MaterialCommunityIcons
-                  name="basketball"
-                  size={20}
-                  color="#fb923c"
-                />
-                    <Text style={styles.dropdown3RowTxt}>{item}</Text>
-                  </View>
-                );
-              }}
-              renderDropdownIcon={isOpened => {
-                return <FontAwesome name={isOpened ? 'chevron-up' : 'chevron-down'} color={'#444'} size={18} />;
-              }}
-              />
+        {warning ? <Text style={tw`text-red-500`}>Please select the courts sport Category !!</Text> : null}
           <TextInput
-            style={tw`w-full h-10 mx-auto my-3 px-4 rounded-xl bg-white text-xl shadow-lg`}
+            style={tw`w-full h-12 mx-auto my-3 px-4 rounded-xl bg-white text-xl shadow-lg`}
             // onChangeText={}
             // value={}
             placeholder="Price"
             keyboardType="numeric"
           />
+        <View style={tw`border-2 rounded-lg `}>
+        <Picker
+          selectedValue={selectedSport}
+          style={tw` border shadow-lg border-2 rounded-md`}
+          ViewStyleProp={tw`border-2`}
+          placeholder="Selt"
+          // style={{ placeholderTextColor: '#fff'}}
+          onValueChange={(itemValue, itemIndex) =>
+            setSelectedSport(itemValue)
+          }>
+          <Picker.Item label="Select sport" value="" />
+          <Picker.Item label="Java" value="java" />
+          <Picker.Item label="JavaScript" value="JavaScript" />
+          <Picker.Item label="JavaScript" value="JavaScript" />
+          <Picker.Item label="JavaScript" value="JavaScript" />
+          <Picker.Item label="JavaScript" value="JavaScript" />
+          <Picker.Item label="JavaScript" value="JavaScript" />
+          <Picker.Item label="JavaScript" value="JavaScript" />
+          <Picker.Item label="JavaScript" value="JavaScript" />
+          <Picker.Item label="JavaScript" value="JavaScript" />
+        </Picker>
+        </View>
 
         </View>
         <TouchableOpacity
