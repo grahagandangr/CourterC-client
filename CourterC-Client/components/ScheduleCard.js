@@ -15,7 +15,7 @@ import tw from "twrnc";
 const ScheduleCard = () => {
     return (
         <TouchableOpacity onPress={() => console.log("halo")} style={tw`w-1/3 h-auto my-2`} >
-            <View style={tw`items-center content-center mx-auto h-30 bg-white shadow-lg m-2`}>
+            <View style={tw`items-center content-center mx-auto h-30 bg-white shadow-lg m-2 rounded-xl`}>
                 <View style={tw`m-auto`}>
                     <Text style={tw`items-center content-center justify-center text-center text-xs font-bold`}>06:00 - 07:00</Text>
                     <Text style={tw`items-center content-center justify-center text-center text-xs font-bold`}>Rp. 30000</Text>
