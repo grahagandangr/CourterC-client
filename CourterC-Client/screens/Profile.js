@@ -15,7 +15,7 @@ import tw from "twrnc";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
-const Profile = () => {
+const Profile = ({ navigation }) => {
   return (
     <SafeAreaView>
       <View style={tw`justify-center content-center items-center mt-4 flex flex-row`}>
@@ -31,6 +31,7 @@ const Profile = () => {
         <Text style={tw`font-bold text-slate-300 text-sm mb-1`}>CPay</Text>
       </View>
       <TouchableOpacity
+        onPress={() => navigation.navigate("TopUpBalance")}
         style={tw`justify-center content-center flex flex-row m-auto items-center mt-4 bg-orange-500 opacity-85 shadow-xl w-5/6 h-10 rounded-lg`}
       >
         <MaterialCommunityIcons name="credit-card-plus-outline" size={22} color="black" />
