@@ -44,7 +44,7 @@ export default function CreateCourt({ navigation }) {
       </Modal>
       
       <ScrollView >
-        <Text style={tw`text-3xl text-center font-bold my-5 text-slate-800`}>Add Your Court</Text>
+        <Text style={tw`text-3xl text-center font-bold my-5 text-slate-800`}>Edit your Court</Text>
       <View style={tw` mx-auto justify-center `}>
 
         <View style={tw`w-80 rounded-3xl mx-auto`}>

@@ -29,7 +29,7 @@ export default function CreateCourtCategory({ navigation }) {
 
   return (
     <SafeAreaView style={styles.container}>
-        <Text style={tw`text-2xl font-bold my-5 text-slate-800`}>Insert Your Court Category</Text>
+        <Text style={tw`text-2xl font-bold my-5 text-slate-800`}>Edit Your Court Category</Text>
       <View style={tw` mx-auto justify-center `}>
 
         <View style={tw`w-80 rounded-3xl mx-auto`}>
@@ -163,42 +163,3 @@ const styles = StyleSheet.create({
     marginHorizontal: 12,
   }
 });
-
-
-
-
-{/* <SelectDropdown
-data={countriesWithFlags}
-// defaultValueByIndex={1}
-// defaultValue={{
-//   title: 'England',
-//   image: require('./Images/England.jpg'),
-// }}
-onSelect={(selectedItem, index) => {
-  console.log(selectedItem, index);
-}}
-buttonStyle={styles.dropdown3BtnStyle}
-renderCustomizedButtonChild={(selectedItem, index) => {
-  return (
-    <View style={styles.dropdown3BtnChildStyle}>
-      {selectedItem ? (
-        <Image source={selectedItem.image} style={styles.dropdown3BtnImage} />
-      ) : (
-        <Ionicons name="md-earth-sharp" color={'#444'} size={32} />
-      )}
-      <Text style={styles.dropdown3BtnTxt}>{selectedItem ? selectedItem.title : 'Select country'}</Text>
-      <FontAwesome name="chevron-down" color={'#444'} size={18} />
-    </View>
-  );
-}}
-dropdownStyle={styles.dropdown3DropdownStyle}
-rowStyle={styles.dropdown3RowStyle}
-renderCustomizedRowChild={(item, index) => {
-  return (
-    <View style={styles.dropdown3RowChildStyle}>
-      <Image source={item.image} style={styles.dropdownRowImage} />
-      <Text style={styles.dropdown3RowTxt}>{item.title}</Text>
-    </View>
-  );
-}}
-/> */}

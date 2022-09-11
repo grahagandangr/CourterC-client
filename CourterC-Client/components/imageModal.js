@@ -10,16 +10,32 @@ export default function ImageModal(props) {
         props.setData(data)
     }
 return (
-    <TouchableOpacity disable={true} style={tw`flex-1 items-center justify-center`}>
-        <View style={tw`h-[150px] pt-10 border rounded-lg bg-white w-40`}>
-    <Text>test</Text>
-    <Button
-            title="cancel"
-            style={tw`mx-1`}
-            onPress={() => closeModal(false, 'Cancel')}
-            />
-        </View>
+    <View style={tw`flex-1 items-center justify-center`}>
+        <View style={tw`h-[250px] w-[375px] pt-10 shadow-lg rounded-lg bg-white `}>
+    <Text style={tw`text-center pb-6 text-xl font-bold`}>Insert your Court Image</Text>
+    <TextInput
+            style={tw`w-[350px] h-10 mx-auto mb-10 px-4 rounded-xl bg-white text-xl shadow-lg`}
+            // onChangeText={}
+            // value={}
+            placeholder="Image Url"
+            keyboardType="default"
+          />
+    <View style={tw`h-16 flex flex-row justify-center  pb-2`}>
+    <TouchableOpacity
+        style={tw`mx-1 bg-blue-500 rounded-md py-4 px-5`}
+        onPress={() => closeModal(false, 'Cancel')}
+        >
+        <Text style={tw`text-md text-white  text-center my-auto font-bold`}>Cancel</Text>
     </TouchableOpacity>
+    <TouchableOpacity
+        style={tw`mx-1 bg-blue-500 rounded-md py-4 px-5`}
+        onPress={() => closeModal(false, 'Submit')}
+        >
+        <Text style={tw`text-md text-white  text-center my-auto font-bold`}>Submit</Text>
+    </TouchableOpacity>
+    </View>
+        </View>
+    </View>
 )
 
 }
