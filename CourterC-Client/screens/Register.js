@@ -1,11 +1,31 @@
+import { useState } from "react";
 import { View, Text, Image, Dimensions, TextInput, TouchableOpacity, StyleSheet, ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import tw from "twrnc";
+import url from "../constant/url";
 
 export default function Register({ navigation }) {
   const windowWidth = Dimensions.get("window").width;
   const windowHeight = Dimensions.get("window").height;
 
+  const [userInfo, setUserInfo] = useState({
+    username: "",
+    email: "",
+    phoneNumber: "",
+    address: "",
+    password: ""
+  })
+
+  const changeUserInfo = (name, value) => {
+    setUserInfo({
+      ...userInfo,
+      [name]: value
+    })
+  }
+
+  const submitNewUser = () => {
+    
+  }
   return (
     <SafeAreaView
       style={{
@@ -25,34 +45,44 @@ export default function Register({ navigation }) {
           <View style={tw`w-80 rounded-3xl mx-auto`}>
             <TextInput
               style={tw`w-full h-10 mx-auto my-3 px-4 rounded-xl bg-white text-xl shadow-lg`}
-              // onChangeText={}
-              // value={}
+              onChangeText={(value) => {
+                changeUserInfo("username", value)
+              }}
+              value={userInfo.username}
               placeholder="Username"
             />
             <TextInput
               style={tw`w-full h-10 mx-auto my-3 px-4 rounded-xl bg-white text-xl shadow-lg`}
-              // onChangeText={}
-              // value={}
+              onChangeText={(value) => {
+                changeUserInfo("email", value)
+              }}
+              value={userInfo.email}
               placeholder="Email"
               keyboardType="email-address"
             />
             <TextInput
               style={tw`w-full h-10 mx-auto my-3 px-4 rounded-xl bg-white text-xl shadow-lg`}
-              // onChangeText={}
-              // value={}
+              onChangeText={(value) => {
+                changeUserInfo("phoneNumber", value)
+              }}
+              value={userInfo.phoneNumber}
               placeholder="Phone Number"
               keyboardType="number-pad"
             />
             <TextInput
               style={tw`w-full h-10 mx-auto my-3 px-4 rounded-xl bg-white text-xl shadow-lg`}
-              // onChangeText={}
-              // value={}
+              onChangeText={(value) => {
+                changeUserInfo("address", value)
+              }}
+              value={userInfo.address}
               placeholder="Address"
             />
             <TextInput
               style={tw`w-full h-10 mx-auto my-3 px-4 rounded-xl bg-white border-black text-xl shadow-lg`}
-              // onChangeText={}
-              // value={}
+              onChangeText={(value) => {
+                changeUserInfo("password", value)
+              }}
+              value={userInfo.password}
               placeholder="Password"
               secureTextEntry={true}
               textContentType="password"
