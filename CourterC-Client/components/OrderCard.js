@@ -1,47 +1,93 @@
 import {
-    Text,
-    Image,
-    View,
-    Button,
-    TouchableOpacity,
-    TextInput,
-    ScrollView,
-    FlatList,
-    ActivityIndicator,
-  } from "react-native";
+  Text,
+  Image,
+  View,
+  Button,
+  TouchableOpacity,
+  TextInput,
+  ScrollView,
+  FlatList,
+  ActivityIndicator,
+} from "react-native";
 import tw from "twrnc";
+import axios from "axios";
+import url from "../constant/url";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useNavigation } from "@react-navigation/native";
 
+const OrderCard = ({ el }) => {
+  const navigation = useNavigation();
+  const yesterday = new Date(el.OrderDetails[0].date);
+  yesterday.setDate(yesterday.getDate() - 2);
 
-const OrderCard = () => {
-    return (
-        <View
-            style={tw`bg-white h-32 w-full mt-1 border flex rounded-xl flex-row border-slate-800`}
-          >
-            <Image
-              style={tw`w-1/3 h-full rounded-xl`}
-              source={{
-                uri: "https://image.tmdb.org/t/p/w600_and_h900_bestv2/kAVRgw7GgK1CfYEJq8ME6EvRIgU.jpg",
-              }}
-            />
-            <View style={tw``}>
+  const cancelHandler = async (id) => {
+    try {
+      let access_token = await AsyncStorage.getItem("@access_token");
+      await axios.patch(
+        `${url}/customer/courts/cancelOrder/${id}`,
+        {},
+        {
+          headers: {
+            access_token,
+          },
+        }
+      );
+      navigation.navigate("Home");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  return (
+    <View style={tw`bg-white w-full my-1 border rounded-xl border-slate-800 mx-auto text-center  justify-center`}>
+      <View style={tw` flex flex-row`}>
+        {/* <Text
+          style={tw`bg-lime-100 mt-1 ml-1 border border-green-500 font-bold rounded-full text-center text-xs text-lime-500 px-1`}
+        >
+          {el.OrderDetails[0].status}
+        </Text> */}
+        {el.OrderDetails.map((orderDetail) => (
+          <View key={orderDetail.id} style={tw`my-2 px-1`}>
+            {orderDetail.status === "Finished" && (
               <Text
-                style={tw`bg-lime-100 mt-1 ml-1 border border-green-500 font-bold rounded-full text-center text-xs text-lime-500 px-1`}
-                
+                style={tw`bg-lime-100 mt-1 ml-1 border border-lime-500 font-bold rounded-full text-center text-xs text-lime-500 px-1`}
               >
-                Finished
+                {orderDetail.status}
               </Text>
-              <Text style={tw`ml-1 text-sm text-orange-500 font-bold`}>Nama Lapanagan</Text>
-              <Text style={tw`ml-1 text-xs text-gray-500`}>26 Jan 2022 = 07:00 - 09:00</Text>
-              <Text style={tw`ml-1 text-xs text-gray-500`}>Badminton</Text>
-
-              <Text style={tw`ml-1 text-xs text-gray-500`}>Rp. 40.000</Text>
-              <TouchableOpacity
-                style={tw`bg-red-500 ml-1 mt-2 content-center absolute bottom-1 justify-center items-center flex flex-row rounded-full py-1 px-2`}
+            )}
+            {orderDetail.status === "Reserved" && (
+              <Text
+                style={tw`bg-yellow-100 mt-1 ml-1 border border-yellow-500 font-bold rounded-full text-center text-xs text-yellow-500 px-1`}
               >
-                <Text style={tw`text-white font-bold text-xs`}> Cancel Order</Text>
+                {orderDetail.status}
+              </Text>
+            )}
+            {orderDetail.status === "Canceled" && (
+              <Text
+                style={tw`bg-red-100 mt-1 ml-1 border border-red-500 font-bold rounded-full text-center text-xs text-red-500 px-1`}
+              >
+                {orderDetail.status}
+              </Text>
+            )}
+
+            <Text style={tw`ml-1 text-sm text-orange-500 font-bold text-center`}>{el.CourtCategory.Court.name}</Text>
+            <Text style={tw`ml-1 text-xs text-gray-500 text-center`}>{orderDetail.date} = 07:00 - 09:00</Text>
+            <Text style={tw`ml-1 text-xs text-gray-500 text-center`}>{el.CourtCategory.Category.name}</Text>
+            <Text style={tw`ml-1 text-xs text-gray-500 text-center`}>{orderDetail.price}</Text>
+            {new Date() <= yesterday && (
+              <TouchableOpacity
+                onPress={() => cancelHandler(orderDetail.id)}
+                style={tw`bg-red-500 mt-2 ml-1 font-bold rounded-full text-center text-xs text-lime-500 px-1 py-1.5`}
+              >
+                <Text style={tw`text-white font-bold text-xs items-center justify-center content-center mx-auto`}>
+                  Cancel Order
+                </Text>
               </TouchableOpacity>
-            </View>
+            )}
           </View>
-    )
-}
-export default OrderCard
+        ))}
+      </View>
+      <Text style={tw`text-center font-bold text-orange-500 text-base mb-2`}>IDR {el.totalPrice}</Text>
+    </View>
+  );
+};
+export default OrderCard;
