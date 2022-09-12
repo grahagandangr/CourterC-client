@@ -13,60 +13,24 @@ export default function CreateCourt({ navigation }) {
     navigation.navigate("CreateCourtCategory");
   };
 
-  const [isModalVisible , setModalVisible] = useState({
-    modal1: false,
-    modal2: false,
-    modal3: false,
-  })
-  const [formData , setFormData] = useState({
-    name: '',
-    imgUrl: {
-      imgUrl1 : '',
-      imgUrl2 : '',
-      imgUrl3 : '',
-    }
-  })
+  const [isModalVisible , setModalVisible] = useState(false)
+  const [chooseData, setChooseData] = useState()
     const handleModal = () => {
       console.log('test');
     }
     const changeModalVisible = (bool) => {
-      setModalVisible({
-        modal1 : false,
-        modal2 : false,
-        modal3 : false,
-      })
+      setModalVisible(bool)
     }
-    const setPropsData = ( data ) => {
-      if(data === 'cancel' || data === ''){
-        console.log("data")
-      }else{
-        console.log(data)
-        setFormData(formData.imgUrl.imgUrl1 = data)
-      }
-      // console.log(formData)
-
+    const setData = ( data ) => {
+      console.log(data)
+      setChooseData(data)
     }
   return (
     <SafeAreaView style={styles.container}>
 
       <Modal 
-      visible={isModalVisible.modal1}
-      transparent={false}
-      animationType='fade'
-      style={tw`text-3xl text-center font-bold m-5 text-slate-800`}
-      nRequestClose={() => setModalVisible(isModalVisible.modal1 = false)}
-      >
-        <View style={tw`text-3xl text-center font-bold my-5 text-slate-800`}>
-         </View>
-         <ImageModal
-         changeModalVisible={changeModalVisible}
-         setPropsData={setPropsData}
-         />
-      </Modal>
-
-      <Modal 
-      visible={isModalVisible.modal2}
-      transparent={false}
+      visible={isModalVisible}
+      transparent={true}
       animationType='fade'
       style={tw`text-3xl text-center font-bold m-5 text-slate-800`}
       nRequestClose={() => changeModalVisible(false)}
@@ -75,27 +39,12 @@ export default function CreateCourt({ navigation }) {
          </View>
          <ImageModal
          changeModalVisible={changeModalVisible}
-         setPropsData={setPropsData}
+         setData={setData}
          />
       </Modal>
-
-      <Modal 
-      visible={isModalVisible.modal3}
-      transparent={false}
-      animationType='fade'
-      style={tw`text-3xl text-center font-bold m-5 text-slate-800`}
-      nRequestClose={() => changeModalVisible(false)}
-      >
-        <View style={tw`text-3xl text-center font-bold my-5 text-slate-800`}>
-         </View>
-         <ImageModal
-         changeModalVisible={changeModalVisible}
-         setPropsData={setPropsData}
-         />
-      </Modal>
-
+      
       <ScrollView >
-        <Text style={tw`text-3xl text-center font-bold my-5 text-slate-800`}>Add Your Court</Text>
+        <Text style={tw`text-3xl text-center font-bold my-5 text-slate-800`}>Edit your Court</Text>
       <View style={tw` mx-auto justify-center `}>
 
         <View style={tw`w-80 rounded-3xl mx-auto`}>
@@ -138,20 +87,19 @@ export default function CreateCourt({ navigation }) {
         <Text style={tw`text-xl  my-3 text-black font-semibold`}>Images</Text> 
         <View style={tw`h-16 flex flex-row justify-center`}>
             <TouchableOpacity
-                onPress={() => setModalVisible(isModalVisible.modal1 == true)}
-                style={tw`mx-1 border-4 border-blue-500 rounded-md py-4 px-5`}
-            >
-               <Feather name="plus" size={24} color="blue" />
-              
-            </TouchableOpacity>
-            <TouchableOpacity
-                onPress={() => setModalVisible(isModalVisible.modal2 == true)}
+                onPress={() => setModalVisible(true)}
                 style={tw`mx-1 border-4 border-blue-500 rounded-md py-4 px-5`}
             >
               <Feather name="plus" size={24} color="blue" />
             </TouchableOpacity>
             <TouchableOpacity
-                onPress={() => setModalVisible(isModalVisible.modal3 == true)}
+                onPress={() => setModalVisible(true)}
+                style={tw`mx-1 border-4 border-blue-500 rounded-md py-4 px-5`}
+            >
+              <Feather name="plus" size={24} color="blue" />
+            </TouchableOpacity>
+            <TouchableOpacity
+                onPress={() => setModalVisible(true)}
                 style={tw`mx-1 border-4 border-blue-500 rounded-md py-4 px-5`}
             >
               <Feather name="plus" size={24} color="blue" />
