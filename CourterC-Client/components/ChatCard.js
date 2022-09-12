@@ -1,8 +1,10 @@
-import { View, Text, Image, ScrollView, TouchableOpacity } from "react-native";
+import { View, Text, Image, ScrollView, TouchableOpacity, TouchableHighlight } from "react-native";
 import tw from "twrnc";
 const ChatCard = () => {
     return (
-        <TouchableOpacity>
+        <TouchableHighlight
+        underlayColor="white"
+        activeOpacity={0.9}>
         <View style={tw`flex items-center content-center items-center justify-center m-auto bg-white mt-2 p-2 w-5/6 rounded-xl`}>
           <View style={tw`flex ml-2 flex-row w-full`}>
             <Image
@@ -18,7 +20,7 @@ const ChatCard = () => {
             </View>
           </View>
         </View>
-      </TouchableOpacity>
+      </TouchableHighlight>
     )
 }
 export default ChatCard

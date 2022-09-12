@@ -25,7 +25,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import ScheduleCard from "../components/ScheduleCard";
-import { MaterialIcons } from '@expo/vector-icons'; 
+import { MaterialIcons } from "@expo/vector-icons";
 
 export default function DetailCourt() {
   const windowWidth = Dimensions.get("window").width;
@@ -55,11 +55,12 @@ export default function DetailCourt() {
     maximumAge: 10000,
     timeout: 5000,
   })
-    .then(({ coords }) =>
+    .then(({ coords }) =>{
       setLocation({
         latitude: coords.latitude,
         longitude: coords.longitude,
       })
+    }
     )
     .catch((e) => console.log(e));
 
@@ -89,70 +90,6 @@ export default function DetailCourt() {
       time: "09:00 - 10:00",
     },
   ];
-
-  const renderItem = ({ item }) => {
-    return <ScheduleCard />;
-  };
-
-  const body = () => {
-    return (
-      <View>
-        <View style={tw`flex flex-row mt-4 mb-2 ml-3`}>
-          <EvilIcons name="location" size={20} color="#f97316" style={tw``} />
-          <Text style={tw`text-xs text-orange-500 font-semibold`}>Location</Text>
-        </View>
-        <View style={tw`flex flex-row justify-between`}>
-        <Text style={tw`ml-4 font-semibold text-xl mb-1`}>
-          Nama Lapangan
-        </Text>
-        <TouchableOpacity style={tw`flex flex-row mr-1 bg-blue-600 justify-center items-center content-center rounded-lg px-1.5`}>
-          <MaterialIcons name="chat" size={16} color="white" />
-          <Text style={tw`text-white text-xs ml-1`}>Message</Text>
-        </TouchableOpacity>
-      </View>
-        <Text style={tw`ml-4 mr-4 text-xs text-gray-500 mb-1 font-semibold`}>09:00 - 20:00</Text>
-        <Text style={tw`ml-4 mr-4 text-xs text-gray-500 font-semibold`}>
-          Description lapangan dadadawdwadawdawdawdawdawdawdawdawdawdawdawdadwadwadawdaw
-        </Text>
-        <View style={tw`flex-row mt-2 ml-4`}>
-          <Text style={tw`text-xs rounded-lg bg-orange-300 mx-1  justify-center items-center text-center py-1 px-1.5`}>
-            <AntDesign name="star" size={12} color="#ea580c" /> 4.6
-          </Text>
-          <Text style={tw`text-xs rounded-lg bg-orange-300 mx-1 justify-center items-center text-center p-1`}>
-            <Ionicons name="location-outline" size={12} color="black" /> 1/2 km
-          </Text>
-        </View>
-        <Text style={tw`text-center font-bold text-base mt-1`}>Order Schedule</Text>
-        <TouchableOpacity
-          onPress={() => {
-            setOpenDate(true);
-          }}
-          style={tw`justify-center content-center flex flex-row m-auto items-center mt-4 bg-orange-500 opacity-85 shadow-xl w-5/6 h-10 rounded-lg`}
-        >
-          <MaterialCommunityIcons name="calendar-blank-outline" size={20} color="black" />
-          <Text style={tw`font-bold text-black ml-1`}>Pick Date</Text>
-        </TouchableOpacity>
-        <DateTimePickerModal
-          value={date}
-          minimumDate={new Date()}
-          locale="id-ID"
-          isVisible={openDate}
-          onConfirm={(date) => {
-            () => {
-              console.log(date);
-              setOpenDate(false);
-            };
-          }}
-          onCancel={() => {
-            () => {
-              setOpenDate(false);
-              console.log("halo");
-            };
-          }}
-        />
-      </View>
-    );
-  };
 
   return (
     <SafeAreaView nestedScrollEnabled={true}>
@@ -223,14 +160,99 @@ export default function DetailCourt() {
             borderRadius: 30,
           }}
         >
-          <FlatList
+          {/* <FlatList
             data={schedule}
             renderItem={renderItem}
             keyExtractor={(item) => item.id}
-            ListHeaderComponent={body}
+            ListHeaderComponent={<Body/>}
             numColumns={3}
             ListFooterComponent={<View style={tw`mb-10`} />}
-          />
+          /> */}
+          <ScrollView>
+            <View style={tw`flex flex-row mt-4 mb-2 ml-3`}>
+              <EvilIcons
+                name="location"
+                size={20}
+                color="#f97316"
+                style={tw``}
+              />
+              <Text style={tw`text-xs text-orange-500 font-semibold`}>
+                Location
+              </Text>
+            </View>
+            <View style={tw`flex flex-row justify-between`}>
+              <Text style={tw`ml-4 font-semibold text-xl mb-1`}>
+                Nama Lapangan
+              </Text>
+              <TouchableOpacity
+                style={tw`flex flex-row mr-1 bg-blue-600 justify-center items-center content-center rounded-lg px-1.5`}
+              >
+                <MaterialIcons name="chat" size={16} color="white" />
+                <Text style={tw`text-white text-xs ml-1`}>Message</Text>
+              </TouchableOpacity>
+            </View>
+            <Text
+              style={tw`ml-4 mr-4 text-xs text-gray-500 mb-1 font-semibold`}
+            >
+              09:00 - 20:00
+            </Text>
+            <Text style={tw`ml-4 mr-4 text-xs text-gray-500 font-semibold`}>
+              Description lapangan
+              dadadawdwadawdawdawdawdawdawdawdawdawdawdawdadwadwadawdaw
+            </Text>
+            <View style={tw`flex-row mt-2 ml-4`}>
+              <Text
+                style={tw`text-xs rounded-lg bg-orange-300 mx-1  justify-center items-center text-center py-1 px-1.5`}
+              >
+                <AntDesign name="star" size={12} color="#ea580c" /> 4.6
+              </Text>
+              <Text
+                style={tw`text-xs rounded-lg bg-orange-300 mx-1 justify-center items-center text-center p-1`}
+              >
+                <Ionicons name="location-outline" size={12} color="black" /> 1/2
+                km
+              </Text>
+            </View>
+            <Text style={tw`text-center font-bold text-base mt-1`}>
+              Order Schedule
+            </Text>
+            <TouchableOpacity
+              onPress={() => {
+                setOpenDate(true);
+              }}
+              style={tw`justify-center content-center flex flex-row m-auto items-center mt-4 bg-orange-500 opacity-85 shadow-xl w-5/6 h-10 rounded-lg`}
+            >
+              <MaterialCommunityIcons
+                name="calendar-blank-outline"
+                size={20}
+                color="black"
+              />
+              <Text style={tw`font-bold text-black ml-1`}>Pick Date</Text>
+            </TouchableOpacity>
+            <DateTimePickerModal
+              value={date}
+              minimumDate={new Date()}
+              locale="id-ID"
+              isVisible={openDate}
+              onConfirm={(date) => {
+                console.log(date);
+                setOpenDate(false);
+              }}
+              onCancel={() => {
+                setOpenDate(false);
+                // console.log("halo");
+              }}
+            />
+            <View style={tw`flex flex-row flex-wrap`}>
+            {
+              schedule.map(el => {
+                return (
+                  <ScheduleCard el={el} key={el.id}/>
+                )
+              })
+            }
+            </View>
+          </ScrollView>
         </View>
       </View>
     </SafeAreaView>

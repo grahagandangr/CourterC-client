@@ -1,11 +1,13 @@
-import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet, Image, TouchableOpacity , TouchableHighlight } from "react-native";
 import tw from "twrnc";
 import { AntDesign, Ionicons } from "@expo/vector-icons";
 
 export default function CourtCard({ navigation }) {
   return (
     <>
-      <TouchableOpacity
+      <TouchableHighlight
+      underlayColor="white"
+      activeOpacity={0.9}
         onPress={() => {
           navigation.navigate("DetailCourt");
         }}
@@ -35,7 +37,7 @@ export default function CourtCard({ navigation }) {
             </View>
           </View>
         </View>
-      </TouchableOpacity>
+      </TouchableHighlight>
     </>
   );
 }
