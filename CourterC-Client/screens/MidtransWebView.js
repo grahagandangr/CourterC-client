@@ -5,6 +5,9 @@ import { useState, useCallback } from "react";
 import { WebView } from "react-native-webview";
 import { SafeAreaView } from "react-native-safe-area-context";
 import axios from "axios";
+import urlNgrok from "../constant/url"
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 
 export default function MidtransWebView() {
   const [url, setUrl] = useState("");
@@ -15,15 +18,15 @@ export default function MidtransWebView() {
 
   const updateBalanceHandler = async () => {
     try {
+      let access_token = await AsyncStorage.getItem("@access_token")
       await axios.post(
-        `https://7a03-103-213-129-181.ap.ngrok.io/customer/top-up/update-balance`,
+        urlNgrok + `/customer/top-up/update-balance`,
         {
           gross_amount: amount,
         },
         {
           headers: {
-            access_token:
-              "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNjYyODg1NjkzfQ.U0y7MyKC7TdpdCPswe_giC3TS4nVE6WTuNiVvs_9iiU",
+            access_token
           },
         }
       );
@@ -46,15 +49,15 @@ export default function MidtransWebView() {
     useCallback(() => {
       const payTopUpBalance = async () => {
         try {
+          let access_token = await AsyncStorage.getItem("@access_token")
           const { data } = await axios.post(
-            `https://7a03-103-213-129-181.ap.ngrok.io/customer/top-up`,
+            urlNgrok + `/customer/top-up`,
             {
               amount: amount,
             },
             {
               headers: {
-                access_token:
-                  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNjYyODg1NjkzfQ.U0y7MyKC7TdpdCPswe_giC3TS4nVE6WTuNiVvs_9iiU",
+                access_token
               },
             }
           );
