@@ -7,6 +7,7 @@ import HomeOwner from "../screens/HomeOwner";
 import Profile from "../screens/Profile";
 import OrderListPage from "../screens/OrderList";
 import { AntDesign } from "@expo/vector-icons";
+import Chat from "../screens/Chat";
 
 const Tab = createBottomTabNavigator();
 
@@ -48,6 +49,33 @@ const TabOwner = () => {
             ) : (
               <View style={tw`items-center justify-center content-center`}>
                 <AntDesign name="inbox" size={19} color="gray" />
+              </View>
+            ),
+        }}
+      />
+      <Tab.Screen
+        name="Chat"
+        component={Chat}
+        options={{
+          headerShown: false,
+          tabBarShowLabel: false,
+          tabBarIcon: ({ focused }) =>
+            focused ? (
+              <View style={tw`items-center justify-center content-center`}>
+                <Ionicons
+                  name="ios-chatbubbles-outline"
+                  size={19}
+                  color="#2563eb"
+                />
+                <Text style={tw`font-bold text-xl -mt-4 text-blue-800`}>.</Text>
+              </View>
+            ) : (
+              <View style={tw`items-center justify-center content-center`}>
+                <Ionicons
+                  name="ios-chatbubbles-outline"
+                  size={19}
+                  color="gray"
+                />
               </View>
             ),
         }}
