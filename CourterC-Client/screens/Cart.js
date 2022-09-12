@@ -62,7 +62,7 @@ const Cart = ({ navigation }) => {
         {
             cart: allCart,
             totalPrice,
-            status: "reserved"
+            status: "Reserved"
         },
         {
           headers: {

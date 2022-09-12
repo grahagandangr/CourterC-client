@@ -12,18 +12,38 @@ import {
 import tw from "twrnc";
 import { AntDesign } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { MaterialIcons } from '@expo/vector-icons';
+import { MaterialIcons } from "@expo/vector-icons";
 import OrderCard from "../components/OrderCard";
+import axios from "axios";
+import url from "../constant/url";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useState, useEffect } from "react";
 
 const OrderList = ({ navigation }) => {
+  const [orders, setOrders] = useState([]);
+  const fetchOrders = async () => {
+    try {
+      let access_token = await AsyncStorage.getItem("@access_token");
+      let { data } = await axios.get(`${url}/customer/courts-orderList`, {
+        headers: {
+          access_token,
+        },
+      });
+      console.log(data);
+      setOrders(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchOrders();
+  }, []);
+
   return (
     <SafeAreaView>
-      <View
-        style={tw`flex justify-between w-full h-full content-center items-center`}
-      >
-        <View
-          style={tw`bg-blue-600 w-full h-10 rounded-b-3xl opacity-85 px-8 flex flex-row`}
-        >
+      <View style={tw`flex justify-between w-full h-full content-center items-center`}>
+        <View style={tw`bg-blue-600 w-full h-10 rounded-b-3xl opacity-85 px-8 flex flex-row`}>
           <TouchableOpacity
             onPress={() => {
               navigation.navigate("Home");
@@ -32,12 +52,14 @@ const OrderList = ({ navigation }) => {
           >
             <AntDesign name="left" size={16} color="blue" />
           </TouchableOpacity>
-          <Text style={tw`m-auto text-base text-white font-semibold`}>
-            Orders
-          </Text>
+          <Text style={tw`m-auto text-base text-white font-semibold`}>Orders</Text>
         </View>
         <ScrollView style={tw`ml-2 mb-4 mr-2 p-0.5 w-5/6`}>
-          <OrderCard/>
+          {orders.length === 0 ? (
+            <Text style={tw`text-center text-black font-bold text-base`}>No Order yet</Text>
+          ) : (
+            orders.map((el) => <OrderCard el={el} key={el.id} />)
+          )}
         </ScrollView>
       </View>
     </SafeAreaView>
