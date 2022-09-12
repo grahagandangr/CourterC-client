@@ -9,10 +9,7 @@ export default function CreateCourt({ navigation }) {
   const windowWidth = Dimensions.get("window").width;
   const windowHeight = Dimensions.get("window").height;
 
-  const addCourt = () => {
-    navigation.navigate("CreateCourtCategory");
-  };
-
+  
   const [isModalVisible , setModalVisible] = useState({
     modal1: false,
     modal2: false,
@@ -26,26 +23,36 @@ export default function CreateCourt({ navigation }) {
       imgUrl3 : '',
     }
   })
-    const handleModal = () => {
-      console.log('test');
+  const handleModal = () => {
+    console.log('test');
+  }
+  const changeModalVisible = (bool) => {
+    setModalVisible({
+      modal1 : false,
+      modal2 : false,
+      modal3 : false,
+    })
+  }
+  const setPropsData = ( data ) => {
+    if(data === 'cancel' || data === ''){
+      console.log("data")
+    }else{
+      console.log(data)
+      setFormData(formData.imgUrl.imgUrl1 = data)
     }
-    const changeModalVisible = (bool) => {
-      setModalVisible({
-        modal1 : false,
-        modal2 : false,
-        modal3 : false,
-      })
-    }
-    const setPropsData = ( data ) => {
-      if(data === 'cancel' || data === ''){
-        console.log("data")
-      }else{
-        console.log(data)
-        setFormData(formData.imgUrl.imgUrl1 = data)
-      }
-      // console.log(formData)
+    // console.log(formData)
+  }
+  const changeInputValue = (slot , value) => {
+    setFormData({
+      ...formData,
+      [slot]:value
 
-    }
+    })
+  }
+  const addCourt = () => {
+    // navigation.navigate("CreateCourtCategory");
+    console.log(formData)
+  };
   return (
     <SafeAreaView style={styles.container}>
 
@@ -101,7 +108,10 @@ export default function CreateCourt({ navigation }) {
         <View style={tw`w-80 rounded-3xl mx-auto`}>
           <TextInput
             style={tw`w-full h-10 mx-auto my-3 px-4 rounded-xl bg-white text-xl shadow-lg`}
-            // onChangeText={}
+            onChangeText={(value) =>{
+              changeInputValue("name", value)
+            }}
+            value={formData.name}
             // value={}
             placeholder="Name"
             keyboardType="default"
@@ -141,8 +151,7 @@ export default function CreateCourt({ navigation }) {
                 onPress={() => setModalVisible(isModalVisible.modal1 == true)}
                 style={tw`mx-1 border-4 border-blue-500 rounded-md py-4 px-5`}
             >
-               <Feather name="plus" size={24} color="blue" />
-              
+             {formData.imgUrl.imgUrl1 !== ''?<Feather name='check' size={24} color="blue" /> : <Feather name='plus' size={24} color="blue" />}
             </TouchableOpacity>
             <TouchableOpacity
                 onPress={() => setModalVisible(isModalVisible.modal2 == true)}
