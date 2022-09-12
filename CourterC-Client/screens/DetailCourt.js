@@ -17,7 +17,6 @@ import { useState, useEffect } from "react";
 import tw from "twrnc";
 import { EvilIcons } from "@expo/vector-icons";
 import { AntDesign, Ionicons } from "@expo/vector-icons";
-import { Fontisto } from "@expo/vector-icons";
 import pointMarker from "../assets/pointM.png";
 import MapViewDirections from "react-native-maps-directions";
 import personPoint from "../assets/personPoint.png";
@@ -26,14 +25,29 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import ScheduleCard from "../components/ScheduleCard";
 import { MaterialIcons } from "@expo/vector-icons";
+import {useRoute} from "@react-navigation/native"
+import url from "../constant/url"
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from "axios";
+
 
 export default function DetailCourt() {
+  const route = useRoute()
   const windowWidth = Dimensions.get("window").width;
   const windowHeight = Dimensions.get("window").height;
   const [openDate, setOpenDate] = useState(false);
   const [date, setDate] = useState(new Date());
+  const [detail, setDetail] = useState({})
+  const [schedule, setSchedule] = useState([])
 
   const [location, setLocation] = useState({
+    latitude: 0,
+    longitude: 0,
+    latitudeDelta: 0.0922,
+    longitudeDelta: 0.0421,
+  });
+
+  const [locationCourt, setLocationCourt] = useState({
     latitude: 0,
     longitude: 0,
     latitudeDelta: 0.0922,
@@ -64,37 +78,32 @@ export default function DetailCourt() {
     )
     .catch((e) => console.log(e));
 
-  const schedule = [
-    {
-      id: 1,
-      time: "07:00 - 08:00",
-    },
-    {
-      id: 2,
-      time: "08:00 - 09:00",
-    },
-    {
-      id: 3,
-      time: "09:00 - 10:00",
-    },
-    {
-      id: 4,
-      time: "09:00 - 10:00",
-    },
-    {
-      id: 5,
-      time: "09:00 - 10:00",
-    },
-    {
-      id: 6,
-      time: "09:00 - 10:00",
-    },
-  ];
+  const getDetail = async () => {
+    try {
+      const access_token = await AsyncStorage.getItem("@access_token")
+        const {data} = await axios.get(url + `/customer/courts/${+route.params.courtId}`, {
+          headers: {
+            access_token
+          }
+        })
+        setLocationCourt({
+          longitude: data.courtDetail.Court.location.coordinates[0],
+          latitude: data.courtDetail.Court.location.coordinates[1]
+        })
+        setDetail(data.courtDetail)
+        setSchedule(data.filteredSchedules)
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  useEffect(() => {
+    getDetail()
+  }, [])
 
   return (
     <SafeAreaView nestedScrollEnabled={true}>
       <View style={tw`w-full h-full content-center items-center`}>
-        {location.latitude === 0 ? (
+        {location.latitude === 0 || locationCourt.latitude === 0 ? (
           <View
             style={{
               width: windowWidth,
@@ -131,8 +140,8 @@ export default function DetailCourt() {
             />
             <Marker
               coordinate={{
-                latitude: -7.29317371502,
-                longitude: 112.76252713,
+                latitude: locationCourt.longitude,
+                longitude: locationCourt.latitude,
               }}
               image={pointMarker}
               anchor={{ x: 0.5, y: 0.5 }}
@@ -143,8 +152,8 @@ export default function DetailCourt() {
                 longitude: location.longitude,
               }}
               destination={{
-                latitude: -7.29317371502,
-                longitude: 112.76252713,
+                latitude: locationCourt.longitude,
+                longitude: locationCourt.latitude,
               }}
               apikey="AIzaSyCC8DuJiwmnfvfXzx4H9f_Rqt9WxP7s3iE"
               strokeWidth={5}
@@ -160,14 +169,10 @@ export default function DetailCourt() {
             borderRadius: 30,
           }}
         >
-          {/* <FlatList
-            data={schedule}
-            renderItem={renderItem}
-            keyExtractor={(item) => item.id}
-            ListHeaderComponent={<Body/>}
-            numColumns={3}
-            ListFooterComponent={<View style={tw`mb-10`} />}
-          /> */}
+          {
+            !detail.id ?
+            <ActivityIndicator size="large" color="00ff00"/>
+            :
           <ScrollView>
             <View style={tw`flex flex-row mt-4 mb-2 ml-3`}>
               <EvilIcons
@@ -177,12 +182,12 @@ export default function DetailCourt() {
                 style={tw``}
               />
               <Text style={tw`text-xs text-orange-500 font-semibold`}>
-                Location
+                {detail.Court.address}
               </Text>
             </View>
             <View style={tw`flex flex-row justify-between`}>
               <Text style={tw`ml-4 font-semibold text-xl mb-1`}>
-                Nama Lapangan
+                {detail.Court.name}
               </Text>
               <TouchableOpacity
                 style={tw`flex flex-row mr-1 bg-blue-600 justify-center items-center content-center rounded-lg px-1.5`}
@@ -194,11 +199,10 @@ export default function DetailCourt() {
             <Text
               style={tw`ml-4 mr-4 text-xs text-gray-500 mb-1 font-semibold`}
             >
-              09:00 - 20:00
+              0{detail.Court.openHour}:00 - {detail.Court.closeHour}:00
             </Text>
             <Text style={tw`ml-4 mr-4 text-xs text-gray-500 font-semibold`}>
-              Description lapangan
-              dadadawdwadawdawdawdawdawdawdawdawdawdawdawdadwadwadawdaw
+              {detail.Court.description}
             </Text>
             <View style={tw`flex-row mt-2 ml-4`}>
               <Text
@@ -209,8 +213,7 @@ export default function DetailCourt() {
               <Text
                 style={tw`text-xs rounded-lg bg-orange-300 mx-1 justify-center items-center text-center p-1`}
               >
-                <Ionicons name="location-outline" size={12} color="black" /> 1/2
-                km
+                IDR {detail.price}
               </Text>
             </View>
             <Text style={tw`text-center font-bold text-base mt-1`}>
@@ -243,6 +246,10 @@ export default function DetailCourt() {
                 // console.log("halo");
               }}
             />
+            {
+              schedule === {} ? 
+              <Text>Pick Date First</Text>
+              :
             <View style={tw`flex flex-row flex-wrap`}>
             {
               schedule.map(el => {
@@ -252,7 +259,9 @@ export default function DetailCourt() {
               })
             }
             </View>
+            }
           </ScrollView>
+          }
         </View>
       </View>
     </SafeAreaView>
