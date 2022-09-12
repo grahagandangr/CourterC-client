@@ -4,6 +4,7 @@ import tw from "twrnc";
 import url from "../constant/url";
 import axios from "axios";
 import { useState } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function Register({ navigation }) {
   const windowWidth = Dimensions.get("window").width;
@@ -30,10 +31,14 @@ export default function Register({ navigation }) {
     }
     try {
       console.log(url+ '/owner/register');
-      await axios.post(url + `/owner/register`, {
+      let { data } = await axios.post(url + `/owner/register`, {
         ...userInfo,
         role: "owner",
       });
+      await AsyncStorage.setItem("@access_token", data.access_token);
+      await AsyncStorage.setItem("@username", data.username);
+      await AsyncStorage.setItem("@id", String(data.id));
+      await AsyncStorage.setItem("@role", data.role);
       navigation.navigate("CreateCourt");
     } catch (error) {
       console.log(error);
