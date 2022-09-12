@@ -1,13 +1,44 @@
-import { View, Text, Image, Dimensions, TextInput, TouchableOpacity, StyleSheet, ScrollView } from "react-native";
+import { View, Text, Image, Dimensions, TextInput, TouchableOpacity, StyleSheet, ScrollView, ToastAndroid } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import tw from "twrnc";
+import url from "../constant/url";
+import axios from "axios";
+import { useState } from "react";
 
 export default function Register({ navigation }) {
   const windowWidth = Dimensions.get("window").width;
   const windowHeight = Dimensions.get("window").height;
 
-  const registerHandler = () => {
-    navigation.navigate("CreateCourt");
+  const [userInfo, setUserInfo] = useState({
+    username: "",
+    email: "",
+    phoneNumber: "",
+    address: "",
+    password: "",
+  });
+
+  const changeUserInfo = (name, value) => {
+    setUserInfo({
+      ...userInfo,
+      [name]: value,
+    });
+  };
+
+  const registerHandler = async () => {
+    if (!userInfo.username || !userInfo.email || !userInfo.password || !userInfo.phoneNumber || !userInfo.address) {
+      return ToastAndroid.show("Field cannot be empty", ToastAndroid.SHORT, ToastAndroid.TOP);
+    }
+    try {
+      console.log(url);
+      await axios.post(url + `/owner/register`, {
+        ...userInfo,
+        role: "owner",
+      });
+      navigation.navigate("CreateCourt");
+    } catch (error) {
+      console.log(error);
+      ToastAndroid.show("Something went wrong", ToastAndroid.LONG, ToastAndroid.TOP);
+    }
   };
 
   return (
@@ -29,34 +60,44 @@ export default function Register({ navigation }) {
           <View style={tw`w-80 rounded-3xl mx-auto`}>
             <TextInput
               style={tw`w-full h-10 mx-auto my-3 px-4 rounded-xl bg-white text-xl shadow-lg`}
-              // onChangeText={}
-              // value={}
+              onChangeText={(value) => {
+                changeUserInfo("username", value);
+              }}
+              value={userInfo.username}
               placeholder="Username"
             />
             <TextInput
               style={tw`w-full h-10 mx-auto my-3 px-4 rounded-xl bg-white text-xl shadow-lg`}
-              // onChangeText={}
-              // value={}
+              onChangeText={(value) => {
+                changeUserInfo("email", value);
+              }}
+              value={userInfo.email}
               placeholder="Email"
               keyboardType="email-address"
             />
             <TextInput
               style={tw`w-full h-10 mx-auto my-3 px-4 rounded-xl bg-white text-xl shadow-lg`}
-              // onChangeText={}
-              // value={}
+              onChangeText={(value) => {
+                changeUserInfo("phoneNumber", value);
+              }}
+              value={userInfo.phoneNumber}
               placeholder="Phone Number"
               keyboardType="number-pad"
             />
             <TextInput
               style={tw`w-full h-10 mx-auto my-3 px-4 rounded-xl bg-white text-xl shadow-lg`}
-              // onChangeText={}
-              // value={}
+              onChangeText={(value) => {
+                changeUserInfo("address", value);
+              }}
+              value={userInfo.address}
               placeholder="Address"
             />
             <TextInput
               style={tw`w-full h-10 mx-auto my-3 px-4 rounded-xl bg-white border-black text-xl shadow-lg`}
-              // onChangeText={}
-              // value={}
+              onChangeText={(value) => {
+                changeUserInfo("password", value);
+              }}
+              value={userInfo.password}
               placeholder="Password"
               secureTextEntry={true}
               textContentType="password"
@@ -69,7 +110,7 @@ export default function Register({ navigation }) {
             Already have an account?{" "}
             <Text
               onPress={() => {
-                navigation.navigate("Login");
+                navigation.navigate("LoginOwner");
               }}
               style={tw`text-blue-600 underline`}
             >
