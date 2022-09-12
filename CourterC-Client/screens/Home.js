@@ -11,57 +11,105 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import tw from "twrnc";
-import { EvilIcons } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import CourtCard from "../components/CourtCard";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useEffect, useState } from "react";
+import { Ionicons } from '@expo/vector-icons';
+import * as Location from "expo-location";
+import axios from "axios";
+import url from "../constant/url";
+
+
 
 const Home = ({navigation}) => {
-  const courts = [
-    {
-      id:1,
-      name: "GOR Suluh",
-      description: "Play with your friend here!",
-      UserId: 1,
-      openHour: "09:00",
-      closeHour: "18:00",
-      location: "1 Michigan Point",
-    },
-    {
-      id:2,
-      name: "GOR Citarum",
-      description: "Play with your friend here",
-      UserId: 2,
-      openHour: "09:00",
-      closeHour: "18:00",
-      location: "98601 Independence Way",
-    },
-    {
-      id:3,
-      name: "GOR Thejak",
-      description: "Play with your friend here",
-      UserId: 1,
-      openHour: "09:00",
-      closeHour: "18:00",
-      location: "7178 Clyde Gallagher Circle",
-    },
-  ];
+  const [token, setToken] = useState("")
+  const [username, setUsername] = useState("")
+  const [categories, setCategories] = useState([])
+  const [courts, setCourts] = useState([])
+  const [location, setLocation] = useState({
+    latitude: 0,
+    longitude: 0,
+    latitudeDelta: 0.0922,
+    longitudeDelta: 0.0421,
+  });
+
+  useEffect(() => {
+    (async () => {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== "granted") {
+        setErrorMsg("Permission to access location was denied");
+        return;
+      }
+    })();
+  }, []);
+
+  Location.getCurrentPositionAsync({
+    accuracy: Location.Accuracy.Highest,
+    maximumAge: 10000,
+    timeout: 5000,
+  })
+    .then(({ coords }) =>{
+      setLocation({
+        latitude: coords.latitude,
+        longitude: coords.longitude,
+      })
+    }
+    )
+    .catch((e) => console.log(e));
+
   const renderItem = ({ item }) => {
     return <CourtCard navigation={navigation} el={item} key={item.id} />;
   };
+
+  const getData = async () => {
+    try {
+      const access_token = await AsyncStorage.getItem("@access_token")
+      const username = await AsyncStorage.getItem("@username")
+      setUsername(username);
+      setToken(access_token)
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  const getCourts = async () => {
+    try {
+      const access_token = await AsyncStorage.getItem("@access_token")
+      const {data} = await axios.get(url + `/customer/courts-radius?lat=${location.latitude}&lon=${location.longitude}`,{
+        headers: {
+          access_token: access_token
+        }
+      }
+      )
+      setCourts(data.courtCategoryFiltered)
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  useEffect(() => {
+    getData()
+  }, [token])
+
+  useEffect(() => {
+    getCourts()
+  }, [location.latitude, location.longitude])
+
   return (
     <SafeAreaView>
       {/* Header */}
       <View style={tw`bg-blue-600 w-full h-36 rounded-b-3xl opacity-85 px-8`}>
         <View style={tw`flex flex-row mt-4 justify-between`}>
           <View style={tw`flex flex-row`}>
-            <EvilIcons
-              name="location"
-              size={24}
+            <Ionicons
+              name="person"
+              size={22}
               color="white"
               style={tw`mt-2 mr-1`}
             />
-            <Text style={tw`text-white text-sm mt-2`}>My Current Location</Text>
+            <Text style={tw`text-white text-base font-bold mt-2`}>Welcome Back {username}</Text>
           </View>
           <View
             style={tw`mt-1 bg-blue-400 h-8 w-8 content-center items-center rounded-xl justify-center`}
@@ -148,12 +196,17 @@ const Home = ({navigation}) => {
           </ScrollView>
         </View>
       </View>
-      <FlatList
-        data={courts}
-        renderItem={renderItem}
-        keyExtractor={(item) => item.id}
-        ListFooterComponent={<View style={tw`mb-80`}/>}
-      />
+      {
+        courts.length === 0 ?
+        <Text style={tw`text-base font-bold text-center`}>There is no court in your area</Text>
+        :
+        <FlatList
+          data={courts}
+          renderItem={renderItem}
+          keyExtractor={(item) => item.id}
+          ListFooterComponent={<View style={tw`mb-80`}/>}
+        />
+      }
     </SafeAreaView>
   );
 };
