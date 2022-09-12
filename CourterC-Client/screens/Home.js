@@ -15,8 +15,15 @@ import { EvilIcons } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import CourtCard from "../components/CourtCard";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useEffect, useState } from "react";
+import { Ionicons } from '@expo/vector-icons';
+
 
 const Home = ({navigation}) => {
+  const [token, setToken] = useState("")
+  const [username, setUsername] = useState("")
+
   const courts = [
     {
       id:1,
@@ -49,19 +56,33 @@ const Home = ({navigation}) => {
   const renderItem = ({ item }) => {
     return <CourtCard navigation={navigation} el={item} key={item.id} />;
   };
+
+  const test = async () => {
+    try {
+      const access_token = await AsyncStorage.getItem("@access_token")
+      const username = await AsyncStorage.getItem("@username")
+      setUsername(username);
+      setToken(access_token)
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  useEffect(() => {
+    test()
+  },[])
   return (
     <SafeAreaView>
       {/* Header */}
       <View style={tw`bg-blue-600 w-full h-36 rounded-b-3xl opacity-85 px-8`}>
         <View style={tw`flex flex-row mt-4 justify-between`}>
           <View style={tw`flex flex-row`}>
-            <EvilIcons
-              name="location"
-              size={24}
+            <Ionicons
+              name="person"
+              size={22}
               color="white"
               style={tw`mt-2 mr-1`}
             />
-            <Text style={tw`text-white text-sm mt-2`}>My Current Location</Text>
+            <Text style={tw`text-white text-base font-bold mt-2`}>Welcome Back {username}</Text>
           </View>
           <View
             style={tw`mt-1 bg-blue-400 h-8 w-8 content-center items-center rounded-xl justify-center`}

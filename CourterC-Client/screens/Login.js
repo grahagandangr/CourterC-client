@@ -1,13 +1,41 @@
-import { View, Text, Image, Dimensions, TextInput, TouchableOpacity, StyleSheet } from "react-native";
+import { useState } from "react";
+import { View, Text, Image, Dimensions, TextInput, TouchableOpacity, StyleSheet, ToastAndroid } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import tw from "twrnc";
+import axios from "axios";
+import url from "../constant/url";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function Login({navigation}) {
   const windowWidth = Dimensions.get("window").width;
   const windowHeight = Dimensions.get("window").height;
+  const [userInfo, setUserInfo] = useState({
+    email: "",
+    password: ""
+  })
 
-  const LoginHandler = () => {
+  const changeUserInfo = (name, value) => {
+    setUserInfo({
+      ...userInfo,
+      [name] : value
+    })
+  }
+  const LoginHandler = async () => {
+    if(!userInfo.password || !userInfo.email){
+      return ToastAndroid.show("Field cannot be empty", ToastAndroid.LONG, ToastAndroid.TOP)
+    }
+    try {
+      let {data} = await axios.post(url + `/customer/login`, {
+        ...userInfo
+      })
+      await AsyncStorage.setItem("@access_token", data.access_token)
+      await AsyncStorage.setItem("@username", data.username)
+      await AsyncStorage.setItem("@id", String(data.id))
+      await AsyncStorage.setItem("@role", data.role)
       navigation.navigate("TabCustomer")
+    } catch (error) {
+      ToastAndroid.show("Something went wrong", ToastAndroid.LONG, ToastAndroid.TOP)
+    }
   } 
 
   return (
@@ -21,15 +49,19 @@ export default function Login({navigation}) {
         <View style={tw`w-80 rounded-3xl mx-auto`}>
           <TextInput
             style={tw`w-full h-10 mx-auto my-3 px-4 rounded-xl bg-white text-xl shadow-lg`}
-            // onChangeText={}
-            // value={}
+            onChangeText={(value) => {
+              changeUserInfo("email", value)
+            }}
+            value={userInfo.email}
             placeholder="Email"
             keyboardType="email-address"
           />
           <TextInput
             style={tw`w-full h-10 mx-auto my-3 px-4 rounded-xl bg-white border-black text-xl shadow-lg`}
-            // onChangeText={}
-            // value={}
+            onChangeText={(value) => {
+              changeUserInfo("password", value)
+            }}
+            value={userInfo.password}
             placeholder="Password"
             secureTextEntry={true}
             textContentType="password"
