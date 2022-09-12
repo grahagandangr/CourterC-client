@@ -25,6 +25,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import ScheduleCard from "../components/ScheduleCard";
+import { MaterialIcons } from '@expo/vector-icons'; 
 
 export default function DetailCourt() {
   const windowWidth = Dimensions.get("window").width;
@@ -107,9 +108,15 @@ export default function DetailCourt() {
           Location
         </Text>
       </View>
-      <Text style={tw`ml-4 font-semibold text-xl mb-1`}>
-        Nama Lapangan
-      </Text>
+      <View style={tw`flex flex-row justify-between`}>
+        <Text style={tw`ml-4 font-semibold text-xl mb-1`}>
+          Nama Lapangan
+        </Text>
+        <TouchableOpacity style={tw`flex flex-row mr-1 bg-blue-600 justify-center items-center content-center rounded-lg px-1.5`}>
+          <MaterialIcons name="chat" size={16} color="white" />
+          <Text style={tw`text-white text-xs ml-1`}>Message</Text>
+        </TouchableOpacity>
+      </View>
       <Text
         style={tw`ml-4 mr-4 text-xs text-gray-500 mb-1 font-semibold`}
       >
