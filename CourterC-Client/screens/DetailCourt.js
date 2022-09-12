@@ -33,12 +33,16 @@ import axios from "axios";
 
 export default function DetailCourt() {
   const route = useRoute()
+  var today = new Date()
+  today.setDate(today.getDate() + 2)
   const windowWidth = Dimensions.get("window").width;
   const windowHeight = Dimensions.get("window").height;
   const [openDate, setOpenDate] = useState(false);
-  const [date, setDate] = useState(new Date());
+  const [date, setDate] = useState(today);
+  const [chooseDate, setChooseDate] = useState(new Date());
   const [detail, setDetail] = useState({})
   const [schedule, setSchedule] = useState([])
+  const [orders, setOrders] = useState([])
 
   const [location, setLocation] = useState({
     latitude: 0,
@@ -81,7 +85,7 @@ export default function DetailCourt() {
   const getDetail = async () => {
     try {
       const access_token = await AsyncStorage.getItem("@access_token")
-        const {data} = await axios.get(url + `/customer/courts/${+route.params.courtId}`, {
+        const {data} = await axios.get(url + `/customer/courts/${+route.params.courtId}?date=${chooseDate}`, {
           headers: {
             access_token
           }
@@ -92,13 +96,14 @@ export default function DetailCourt() {
         })
         setDetail(data.courtDetail)
         setSchedule(data.filteredSchedules)
+        setOrders(data.bookedSchedule)
     } catch (error) {
       console.log(error);
     }
   }
   useEffect(() => {
     getDetail()
-  }, [])
+  }, [chooseDate])
 
   return (
     <SafeAreaView nestedScrollEnabled={true}>
@@ -234,11 +239,11 @@ export default function DetailCourt() {
             </TouchableOpacity>
             <DateTimePickerModal
               value={date}
-              minimumDate={new Date()}
+              minimumDate={today}
               locale="id-ID"
               isVisible={openDate}
               onConfirm={(date) => {
-                console.log(date);
+                setChooseDate(date)
                 setOpenDate(false);
               }}
               onCancel={() => {
@@ -254,7 +259,7 @@ export default function DetailCourt() {
             {
               schedule.map(el => {
                 return (
-                  <ScheduleCard el={el} key={el.id}/>
+                  <ScheduleCard el={el} key={el.id} orders={orders} date={chooseDate} CourtCategoryId={+route.params.courtId} name={detail.Court.name} price={detail.price}/>
                 )
               })
             }
