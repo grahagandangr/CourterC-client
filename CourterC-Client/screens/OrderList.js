@@ -17,10 +17,12 @@ import OrderCard from "../components/OrderCard";
 import axios from "axios";
 import url from "../constant/url";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
+import { useFocusEffect } from "@react-navigation/native";
 
 const OrderList = ({ navigation }) => {
   const [orders, setOrders] = useState([]);
+  const [schedule, setSchedule] = useState([]);
   const fetchOrders = async () => {
     try {
       let access_token = await AsyncStorage.getItem("@access_token");
@@ -29,16 +31,20 @@ const OrderList = ({ navigation }) => {
           access_token,
         },
       });
-      console.log(data);
-      setOrders(data);
+      // console.log(data);
+      setOrders(data.order);
+      setSchedule(data.schedule);
     } catch (error) {
       console.log(error);
     }
   };
 
-  useEffect(() => {
-    fetchOrders();
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      setOrders([]);
+      fetchOrders();
+    }, [])
+  );
 
   return (
     <SafeAreaView>
@@ -58,7 +64,7 @@ const OrderList = ({ navigation }) => {
           {orders.length === 0 ? (
             <Text style={tw`text-center text-black font-bold text-base`}>No Order yet</Text>
           ) : (
-            orders.map((el) => <OrderCard el={el} key={el.id} />)
+            orders.map((el) => <OrderCard schedule={schedule} el={el} key={el.id} />)
           )}
         </ScrollView>
       </View>
