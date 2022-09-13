@@ -71,6 +71,7 @@ const Cart = ({ navigation }) => {
         }
       );
       await AsyncStorage.removeItem("@cart")
+      navigation.navigate("Home")
     } catch (error) {
       console.log(error);
     }

@@ -24,13 +24,13 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import ScheduleCard from "../components/ScheduleCard";
-import { MaterialIcons } from "@expo/vector-icons";
+import { MaterialIcons, FontAwesome } from "@expo/vector-icons";
 import { useFocusEffect, useRoute } from "@react-navigation/native";
 import url from "../constant/url";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 
-export default function DetailCourt() {
+export default function DetailCourt({ navigation }) {
   const route = useRoute();
   var today = new Date();
   today.setDate(today.getDate() + 2);
@@ -253,6 +253,17 @@ export default function DetailCourt() {
                   })}
                 </View>
               )}
+              <View style={tw`pb-8`}>
+                <TouchableOpacity
+                  onPress={() => {
+                    navigation.navigate("Cart");
+                  }}
+                  style={tw`justify-center content-center flex flex-row m-auto items-center mt-4 bg-blue-600 opacity-85 shadow-xl w-5/6 h-10 rounded-lg`}
+                >
+                  <FontAwesome name="shopping-basket" size={20} color="white" />
+                  <Text style={tw`font-bold text-white ml-1`}>Go To Cart</Text>
+                </TouchableOpacity>
+              </View>
             </ScrollView>
           )}
         </View>

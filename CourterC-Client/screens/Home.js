@@ -129,7 +129,7 @@ const Home = ({ navigation }) => {
   return (
     <SafeAreaView>
       {/* Header */}
-      <View style={tw`bg-blue-600 w-full h-36 rounded-b-3xl opacity-85 px-8`}>
+      <View style={tw`bg-blue-600 w-full h-18 rounded-b-3xl opacity-85 px-8`}>
         <View style={tw`flex flex-row mt-4 justify-between`}>
           <View style={tw`flex flex-row`}>
             <Ionicons name="person" size={22} color="white" style={tw`mt-2 mr-1`} />
@@ -146,22 +146,11 @@ const Home = ({ navigation }) => {
             </TouchableOpacity>
           </View>
         </View>
-        <View style={tw`content-center m-auto w-3/4 flex-row`}>
-          <TextInput
-            style={tw`rounded-xl px-4 py-2 focus:outline-none w-full bg-transparent bg-gray-200`}
-            placeholder="Search..."
-          ></TextInput>
-          <TouchableOpacity
-            style={tw`text-sm bg-blue-400 py-1.5 px-2 absolute right-1.5 bottom-2 rounded-full text-white focus:ring-4`}
-          >
-            <Text style={tw`text-white font-semibold text-xs`}>Search</Text>
-          </TouchableOpacity>
-        </View>
       </View>
       {/* Catgories */}
       <View>
         <View style={tw`flex flex-row items-center content-center justify-center p-1`}>
-          <ScrollView horizontal style={tw`ml-2 my-2 mr-2 p-0.5`}>
+          <ScrollView showsHorizontalScrollIndicator={false} horizontal style={tw`ml-2 my-2 mr-2 p-0.5`}>
             {categories.map((el) => (
               <View key={el.id} style={tw`flex-col items-center mr-2 pb-3 pt-2 px-1.5 rounded-full mx-auto`}>
                 <TouchableOpacity
