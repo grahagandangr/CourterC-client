@@ -83,14 +83,9 @@ export default function CreateCourt({ navigation }) {
       
     }
 
-    
-  
   };
   return (
     <SafeAreaView style={styles.container}>
-
-     
-
       <ScrollView >
         <Text style={tw`text-3xl text-center font-bold my-5 text-slate-800`}>Add Your Court</Text>
       <View style={tw` mx-auto justify-center `}>

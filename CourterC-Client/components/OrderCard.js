@@ -51,11 +51,6 @@ const OrderCard = ({ el, schedule }) => {
   return (
     <View style={tw`bg-white w-full my-1 border rounded-xl border-slate-800 mx-auto text-center  justify-center`}>
       <View style={tw` flex flex-row`}>
-        {/* <Text
-          style={tw`bg-lime-100 mt-1 ml-1 border border-green-500 font-bold rounded-full text-center text-xs text-lime-500 px-1`}
-        >
-          {el.OrderDetails[0].status}
-        </Text> */}
         {el.OrderDetails.map((orderDetail) => (
           <View key={orderDetail.id} style={tw`my-2 px-1`}>
             {orderDetail.status === "Finished" && (

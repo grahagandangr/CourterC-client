@@ -29,7 +29,6 @@ const countries = [
 export default function CreateCourtCategory({navigation , route}) {
   const windowWidth = Dimensions.get("window").width;
   const windowHeight = Dimensions.get("window").height;
-  console.log(route.params.id)
   const [categories , setCategories] = useState([])
   const [isModalVisible , setModalVisible] = useState({
     modal1: false,
@@ -50,7 +49,7 @@ export default function CreateCourtCategory({navigation , route}) {
   const getCategories = async () => {
     try {
       const access_token = await AsyncStorage.getItem("@access_token")
-      let {data} = await axios.get(url + '/owner/categories' ,{
+      let {data} = await axios.get(url + '/customer/categories' ,{
         headers:{
           access_token: access_token
         }
@@ -79,25 +78,19 @@ export default function CreateCourtCategory({navigation , route}) {
   }
   const setPropsData1 = ( data ) => {
     if(data === 'cancel' || data === ''){
-      console.log("data")
     }else{
-      console.log(data)
       setFormData(formData.imgUrl.imgUrl1 = data)
     }
   }
   const setPropsData2 = ( data ) => {
     if(data === 'cancel' || data === ''){
-      console.log("data")
     }else{
-      console.log(data)
       setFormData(formData.imgUrl.imgUrl2 = data)
     }
 }
 const setPropsData3 = ( data ) => {
   if(data === 'cancel' || data === ''){
-    console.log("data")
   }else{
-    console.log(data)
     setFormData(formData.imgUrl.imgUrl3 = data)
   }
 }
@@ -113,7 +106,6 @@ const setPropsData3 = ( data ) => {
         },{ headers: {
           access_token: access_token
         }})
-        console.log(data1.data);
         // navigation.navigate("TabOwner");
         setWarning(false)
       }else{
