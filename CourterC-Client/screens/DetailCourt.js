@@ -30,7 +30,7 @@ import url from "../constant/url";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 
-export default function DetailCourt() {
+export default function DetailCourt({ navigation }) {
   const route = useRoute();
   var today = new Date();
   today.setDate(today.getDate() + 2);
@@ -109,6 +109,10 @@ export default function DetailCourt() {
       console.log("masuk");
     }, [chooseDate])
   );
+
+  const navigateToChat = () => {
+    navigation.navigate('Chat')
+  }
 
   return (
     <SafeAreaView nestedScrollEnabled={true}>
@@ -193,7 +197,7 @@ export default function DetailCourt() {
                   style={tw`flex flex-row mr-1 bg-blue-600 justify-center items-center content-center rounded-lg px-1.5`}
                 >
                   <MaterialIcons name="chat" size={16} color="white" />
-                  <Text style={tw`text-white text-xs ml-1`}>Message</Text>
+                  <Text style={tw`text-white text-xs ml-1`} onPress={navigateToChat}>Message</Text>
                 </TouchableOpacity>
               </View>
               <Text style={tw`ml-4 mr-4 text-xs text-gray-500 mb-1 font-semibold`}>
