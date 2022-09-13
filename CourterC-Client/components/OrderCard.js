@@ -8,17 +8,27 @@ import {
   ScrollView,
   FlatList,
   ActivityIndicator,
+  ToastAndroid,
 } from "react-native";
 import tw from "twrnc";
 import axios from "axios";
 import url from "../constant/url";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
+import { useEffect, useState } from "react";
 
-const OrderCard = ({ el }) => {
+const OrderCard = ({ el, schedule }) => {
   const navigation = useNavigation();
   const yesterday = new Date(el.OrderDetails[0].date);
   yesterday.setDate(yesterday.getDate() - 2);
+
+  const findInterval = (scheduleid) => {
+    let scheduleFind = schedule.find((el) => el.id === scheduleid);
+    if (scheduleFind) {
+      return scheduleFind.interval;
+    }
+
+  };
 
   const cancelHandler = async (id) => {
     try {
@@ -32,6 +42,7 @@ const OrderCard = ({ el }) => {
           },
         }
       );
+      ToastAndroid.show("Order cancelled, please wait...", ToastAndroid.LONG, ToastAndroid.BOTTOM);
       navigation.navigate("Home");
     } catch (error) {
       console.log(error);
@@ -70,10 +81,12 @@ const OrderCard = ({ el }) => {
             )}
 
             <Text style={tw`ml-1 text-sm text-orange-500 font-bold text-center`}>{el.CourtCategory.Court.name}</Text>
-            <Text style={tw`ml-1 text-xs text-gray-500 text-center`}>{orderDetail.date} = 07:00 - 09:00</Text>
+            <Text style={tw`ml-1 text-xs text-gray-500 text-center`}>
+              {orderDetail.date} = {findInterval(orderDetail.ScheduleId)}
+            </Text>
             <Text style={tw`ml-1 text-xs text-gray-500 text-center`}>{el.CourtCategory.Category.name}</Text>
             <Text style={tw`ml-1 text-xs text-gray-500 text-center`}>{orderDetail.price}</Text>
-            {new Date() <= yesterday && (
+            {new Date() <= yesterday && orderDetail.status == "Reserved" && (
               <TouchableOpacity
                 onPress={() => cancelHandler(orderDetail.id)}
                 style={tw`bg-red-500 mt-2 ml-1 font-bold rounded-full text-center text-xs text-lime-500 px-1 py-1.5`}
