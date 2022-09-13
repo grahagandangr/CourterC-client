@@ -8,51 +8,66 @@ import {
   TouchableOpacity,
   StyleSheet,
   Button,
+  Modal,
 } from 'react-native';
 import tw from 'twrnc';
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { Entypo } from '@expo/vector-icons'; 
 
 // const windowHeight = Dimensions.get("window").height;
 
 export default function ImageModal(props) {
   const [url, setUrl] = useState('');
   const closeModal = (bool, data) => {
-    props.changeModalVisible(bool);
-    props.setPropsData(data);
+    // props.changeModalVisible(bool);
+    // props.setPropsData(data);
   };
   return (
+    <Modal
+    visible={props.isModalVisible}
+      transparent={true}
+      animationType='fade'
+      style={tw`text-3xl text-center font-bold m-5 text-slate-800 bg-black/75`}
+      onRequestClose={props.onRequestClose}
+      >
+        <View style={tw`text-3xl text-center font-bold my-5 text-slate-800`}>
+         </View>
     <View style={tw`flex-1 items-center justify-center`}>
       <View
-        style={tw`h-[250px] w-[375px] pt-10 shadow-lg rounded-lg bg-white `}
+        style={tw`h-[250px] w-[375px] shadow-lg rounded-lg bg-white `}
       >
+         <View style={tw`flex-row`}>
+          <View style={tw`flex-1 `}></View>
+          <TouchableOpacity
+          onPress={props.onRequestClose}
+          style={tw`p-4`}
+          >
+            <Entypo name="cross" size={24} color="black" />
+
+          </TouchableOpacity>
+         </View>
         <Text style={tw`text-center pb-6 text-xl font-bold`}>
-          Insert your Court Image
+          Select your Method to insert your Court Image
         </Text>
-        <TextInput
-          style={tw`w-[350px] h-10 mx-auto mb-10 px-4 rounded-xl bg-white text-xl shadow-lg`}
-          onChangeText={setUrl}
-          value={url}
-          placeholder="Image Url"
-          keyboardType="default"
-        />
         <View style={tw`h-16 flex flex-row justify-center  pb-2`}>
           <TouchableOpacity
             style={tw`mx-1 bg-blue-500 rounded-md py-4 px-5`}
-            onPress={() => closeModal(false, 'cancel')}
+            onPress={props.onCamera}
           >
-            <Text style={tw`text-md text-white  text-center my-auto font-bold`}>
-              Cancel
-            </Text>
+            <Entypo name="camera" size={24} color="white" />
+
           </TouchableOpacity>
           <TouchableOpacity
             style={tw`mx-1 bg-blue-500 rounded-md py-4 px-5`}
-            onPress={() => closeModal(false, url)}
+            onPress={props.onLibrary}
           >
-            <Text style={tw`text-md text-white  text-center my-auto font-bold`}>
-              Submit
-            </Text>
+              <MaterialCommunityIcons name="folder-image" size={24} color="white" />
+
           </TouchableOpacity>
         </View>
       </View>
     </View>
+    </Modal>
+
   );
 }
