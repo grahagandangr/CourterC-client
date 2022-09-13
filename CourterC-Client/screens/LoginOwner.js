@@ -41,12 +41,14 @@ export default function LoginOwner({ navigation }) {
       let { data } = await axios.post(url + `/owner/login`, {
         ...userInfo,
       });
+      console.log(data);
       await AsyncStorage.setItem("@access_token", data.access_token);
       await AsyncStorage.setItem("@username", data.username);
       await AsyncStorage.setItem("@id", String(data.id));
       await AsyncStorage.setItem("@role", data.role);
       navigation.navigate("TabOwner");
     } catch (error) {
+      console.log(error)
       ToastAndroid.show("Something went wrong", ToastAndroid.LONG, ToastAndroid.TOP);
     }
   };

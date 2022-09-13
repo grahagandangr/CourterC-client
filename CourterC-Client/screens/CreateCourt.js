@@ -1,99 +1,91 @@
 import { useEffect, useState } from "react";
-import { View, Text, Image, Dimensions, TextInput, TouchableOpacity, StyleSheet, ScrollView, Modal, Button } from "react-native";
+import { View, Text, Image, Dimensions, TextInput, TouchableOpacity, StyleSheet, ScrollView,  Button, ToastAndroid, } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import  ImageModal  from "../components/imageModal";
-import { Feather } from '@expo/vector-icons';
 import tw from "twrnc";
+import axios from "axios";
+import url from "../constant/url";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import * as Location from "expo-location";
+
 
 export default function CreateCourt({ navigation }) {
   const windowWidth = Dimensions.get("window").width;
   const windowHeight = Dimensions.get("window").height;
 
-  const addCourt = () => {
-    navigation.navigate("CreateCourtCategory");
-  };
+ 
+  const [location, setLocation] = useState({
+    latitude: 0,
+    longitude: 0,
+    latitudeDelta: 0.0922,
+    longitudeDelta: 0.0421,
+  });
 
-  const [isModalVisible , setModalVisible] = useState({
-    modal1: false,
-    modal2: false,
-    modal3: false,
+  useEffect(() => {
+    (async () => {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== "granted") {
+        setErrorMsg("Permission to access location was denied");
+        return;
+      }
+    })();
+  }, []);
+
+  Location.getCurrentPositionAsync({
+    accuracy: Location.Accuracy.Highest,
+    maximumAge: 10000,
+    timeout: 5000,
   })
+  .then(({ coords }) =>{
+    setLocation({
+      latitude: coords.latitude,
+      longitude: coords.longitude,
+    })
+  }
+  )
+  .catch((e) => console.log(e));
+
   const [formData , setFormData] = useState({
     name: '',
-    imgUrl: {
-      imgUrl1 : '',
-      imgUrl2 : '',
-      imgUrl3 : '',
-    }
+    description: '',
+    openHour: '',
+    closeHour: '',
+    address: '',
+    
   })
-    const handleModal = () => {
-      console.log('test');
-    }
-    const changeModalVisible = (bool) => {
-      setModalVisible({
-        modal1 : false,
-        modal2 : false,
-        modal3 : false,
-      })
-    }
-    const setPropsData = ( data ) => {
-      if(data === 'cancel' || data === ''){
-        console.log("data")
-      }else{
-        console.log(data)
-        setFormData(formData.imgUrl.imgUrl1 = data)
-      }
-      // console.log(formData)
+  const handleModal = () => {
+    console.log('test');
+  }
+ 
+  const changeInputValue = (slot , value) => {
+    setFormData({
+      ...formData,
+      [slot]:value
 
+    })
+  }
+  const addCourt = async() => {
+    if (!formData.name || !formData.description || !formData.openHour ||!formData.closeHour || !formData.address ) {
+      return ToastAndroid.show("Field cannot be empty", ToastAndroid.LONG, ToastAndroid.TOP);
     }
+    try {
+      const access_token = await AsyncStorage.getItem("@access_token")
+      let { data } = await axios.post(url + `/owner/courts`, {
+        ...formData,
+        location: [location.latitude , location.longitude]
+      },{ headers: {
+        access_token: access_token
+      }})
+      ToastAndroid.show(`${data.message}`, ToastAndroid.LONG, ToastAndroid.TOP);
+      navigation.navigate("CreateCourtCategory" , {id: data.id});
+    } catch (err) {
+      console.log(err);
+      ToastAndroid.show("Something went wrong", ToastAndroid.LONG, ToastAndroid.TOP);
+      
+    }
+
+  };
   return (
     <SafeAreaView style={styles.container}>
-
-      <Modal 
-      visible={isModalVisible.modal1}
-      transparent={false}
-      animationType='fade'
-      style={tw`text-3xl text-center font-bold m-5 text-slate-800`}
-      nRequestClose={() => setModalVisible(isModalVisible.modal1 = false)}
-      >
-        <View style={tw`text-3xl text-center font-bold my-5 text-slate-800`}>
-         </View>
-         <ImageModal
-         changeModalVisible={changeModalVisible}
-         setPropsData={setPropsData}
-         />
-      </Modal>
-
-      <Modal 
-      visible={isModalVisible.modal2}
-      transparent={false}
-      animationType='fade'
-      style={tw`text-3xl text-center font-bold m-5 text-slate-800`}
-      nRequestClose={() => changeModalVisible(false)}
-      >
-        <View style={tw`text-3xl text-center font-bold my-5 text-slate-800`}>
-         </View>
-         <ImageModal
-         changeModalVisible={changeModalVisible}
-         setPropsData={setPropsData}
-         />
-      </Modal>
-
-      <Modal 
-      visible={isModalVisible.modal3}
-      transparent={false}
-      animationType='fade'
-      style={tw`text-3xl text-center font-bold m-5 text-slate-800`}
-      nRequestClose={() => changeModalVisible(false)}
-      >
-        <View style={tw`text-3xl text-center font-bold my-5 text-slate-800`}>
-         </View>
-         <ImageModal
-         changeModalVisible={changeModalVisible}
-         setPropsData={setPropsData}
-         />
-      </Modal>
-
       <ScrollView >
         <Text style={tw`text-3xl text-center font-bold my-5 text-slate-800`}>Add Your Court</Text>
       <View style={tw` mx-auto justify-center `}>
@@ -101,62 +93,52 @@ export default function CreateCourt({ navigation }) {
         <View style={tw`w-80 rounded-3xl mx-auto`}>
           <TextInput
             style={tw`w-full h-10 mx-auto my-3 px-4 rounded-xl bg-white text-xl shadow-lg`}
-            // onChangeText={}
+            onChangeText={(value) =>{
+              changeInputValue("name", value)
+            }}
+            value={formData.name}
             // value={}
             placeholder="Name"
             keyboardType="default"
           />
           <TextInput
             style={tw`w-full h-10 mx-auto my-3 px-4 rounded-xl bg-white text-xl shadow-lg`}
-            // onChangeText={}
-            // value={}
+            onChangeText={(value) =>{
+              changeInputValue("description", value)
+            }}
+            value={formData.description}
             placeholder="Description"
             keyboardType="default"
           />
           <TextInput
             style={tw`w-full h-10 mx-auto my-3 px-4 rounded-xl bg-white text-xl shadow-lg`}
-            // onChangeText={}
-            // value={}
+            onChangeText={(value) =>{
+              changeInputValue("openHour", value)
+            }}
+            value={formData.openHour}
             placeholder="Open Hour"
-            keyboardType="default"
+            keyboardType="numeric"
           />
           <TextInput
             style={tw`w-full h-10 mx-auto my-3 px-4 rounded-xl bg-white text-xl shadow-lg`}
-            // onChangeText={}
-            // value={}
+            onChangeText={(value) =>{
+              changeInputValue("closeHour", value)
+            }}
+            value={formData.closeHour}
             placeholder="Close Hour"
-            keyboardType="default"
+            keyboardType="numeric"
           />
           <TextInput
             style={tw`w-full h-10 mx-auto my-3 px-4 rounded-xl bg-white text-xl shadow-lg`}
-            // onChangeText={}
-            // value={}
+            onChangeText={(value) =>{
+              changeInputValue("address", value)
+            }}
+            value={formData.address}
             placeholder="Address"
             keyboardType="default"
           />
         </View>
-        <Text style={tw`text-xl  my-3 text-black font-semibold`}>Images</Text> 
-        <View style={tw`h-16 flex flex-row justify-center`}>
-            <TouchableOpacity
-                onPress={() => setModalVisible(isModalVisible.modal1 == true)}
-                style={tw`mx-1 border-4 border-blue-500 rounded-md py-4 px-5`}
-            >
-               <Feather name="plus" size={24} color="blue" />
-              
-            </TouchableOpacity>
-            <TouchableOpacity
-                onPress={() => setModalVisible(isModalVisible.modal2 == true)}
-                style={tw`mx-1 border-4 border-blue-500 rounded-md py-4 px-5`}
-            >
-              <Feather name="plus" size={24} color="blue" />
-            </TouchableOpacity>
-            <TouchableOpacity
-                onPress={() => setModalVisible(isModalVisible.modal3 == true)}
-                style={tw`mx-1 border-4 border-blue-500 rounded-md py-4 px-5`}
-            >
-              <Feather name="plus" size={24} color="blue" />
-            </TouchableOpacity>
-          </View>
+       
         <TouchableOpacity
           onPress={addCourt}
           style={tw`bg-blue-600 h-11 mx-auto mt-10 rounded-xl`}

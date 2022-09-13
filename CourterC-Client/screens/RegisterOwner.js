@@ -4,6 +4,7 @@ import tw from "twrnc";
 import url from "../constant/url";
 import axios from "axios";
 import { useState } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function Register({ navigation }) {
   const windowWidth = Dimensions.get("window").width;
@@ -29,11 +30,11 @@ export default function Register({ navigation }) {
       return ToastAndroid.show("Field cannot be empty", ToastAndroid.SHORT, ToastAndroid.TOP);
     }
     try {
-      console.log(url);
-      await axios.post(url + `/owner/register`, {
+      let { data } = await axios.post(url + `/owner/register`, {
         ...userInfo,
         role: "owner",
       });
+      await AsyncStorage.setItem("@access_token", data.access_token);
       navigation.navigate("CreateCourt");
     } catch (error) {
       console.log(error);
