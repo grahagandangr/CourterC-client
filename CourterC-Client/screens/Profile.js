@@ -16,57 +16,59 @@ import { FontAwesome5 } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import url from "../constant/url";
 import axios from "axios";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
+import { useFocusEffect } from "@react-navigation/native";
 
 const Profile = ({ navigation }) => {
-  const [user, setUser] = useState({})
+  const [user, setUser] = useState({});
 
   const findUser = async () => {
     try {
-      const access_token = await AsyncStorage.getItem("@access_token")
-      const {data} = await axios.get(url + `/customer/profile`, {
+      const access_token = await AsyncStorage.getItem("@access_token");
+      const { data } = await axios.get(url + `/customer/profile`, {
         headers: {
-          access_token
-        }
-      })
-      setUser(data)
+          access_token,
+        },
+      });
+      setUser(data);
     } catch (error) {
       console.log(error);
     }
-  }
-  useEffect(() => {
-    findUser()
-  }, [])
+  };
+  useFocusEffect(
+    useCallback(() => {
+      findUser();
+    }, [])
+  );
+
   return (
     <SafeAreaView>
-      {
-        !user.id ? 
-        <ActivityIndicator size="large" color="00ff00"/>
-        :
+      {!user.id ? (
+        <ActivityIndicator size="large" color="00ff00" />
+      ) : (
         <>
-      <View style={tw`justify-center content-center items-center mt-4 flex flex-row`}>
-        <Ionicons name="md-person-circle-outline" size={40} color="#0284c7" />
-        <Text style={tw`ml-1 font-semibold text-blue-500`}>{user.username}</Text>
-      </View>
-      <View
-        style={tw`justify-center content-center m-auto items-center mt-4 bg-blue-600 opacity-85 shadow-xl w-5/6 h-36 rounded-lg`}
-      >
-        <FontAwesome5 name="money-check" size={18} color="#d1d5db" />
-        <Text style={tw`font-bold text-slate-300 text-sm mb-1 mt-1`}>Balance</Text>
-        <Text style={tw`font-bold text-slate-300 text-2xl mb-1`}>Rp. {user.balance}</Text>
-        <Text style={tw`font-bold text-slate-300 text-sm mb-1`}>CPay</Text>
-      </View>
-      <TouchableOpacity
-        onPress={() => navigation.navigate("TopUpBalance")}
-        style={tw`justify-center content-center flex flex-row m-auto items-center mt-4 bg-orange-500 opacity-85 shadow-xl w-5/6 h-10 rounded-lg`}
-      >
-        <MaterialCommunityIcons name="credit-card-plus-outline" size={22} color="black" />
-        <Text style={tw`font-bold text-black ml-1`}>Top Up Balance</Text>
-      </TouchableOpacity>
-      </>
-      }
+          <View style={tw`justify-center content-center items-center mt-4 flex flex-row`}>
+            <Ionicons name="md-person-circle-outline" size={40} color="#0284c7" />
+            <Text style={tw`ml-1 font-semibold text-blue-500`}>{user.username}</Text>
+          </View>
+          <View
+            style={tw`justify-center content-center m-auto items-center mt-4 bg-blue-600 opacity-85 shadow-xl w-5/6 h-36 rounded-lg`}
+          >
+            <FontAwesome5 name="money-check" size={18} color="#d1d5db" />
+            <Text style={tw`font-bold text-slate-300 text-sm mb-1 mt-1`}>Balance</Text>
+            <Text style={tw`font-bold text-slate-300 text-2xl mb-1`}>Rp. {user.balance}</Text>
+            <Text style={tw`font-bold text-slate-300 text-sm mb-1`}>CPay</Text>
+          </View>
+          <TouchableOpacity
+            onPress={() => navigation.navigate("TopUpBalance")}
+            style={tw`justify-center content-center flex flex-row m-auto items-center mt-4 bg-orange-500 opacity-85 shadow-xl w-5/6 h-10 rounded-lg`}
+          >
+            <MaterialCommunityIcons name="credit-card-plus-outline" size={22} color="black" />
+            <Text style={tw`font-bold text-black ml-1`}>Top Up Balance</Text>
+          </TouchableOpacity>
+        </>
+      )}
     </SafeAreaView>
   );
 };
