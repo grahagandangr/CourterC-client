@@ -49,7 +49,6 @@ export default function Login({navigation}) {
       await AsyncStorage.setItem("@username", data.username)
       await AsyncStorage.setItem("@id", String(data.id))
       await AsyncStorage.setItem("@role", data.role)
-      await AsyncStorage.setItem("@talkID", data.talkId.TalkJSID)
       navigation.navigate("TabCustomer")
     } catch (error) {
       ToastAndroid.show("Something went wrong", ToastAndroid.LONG, ToastAndroid.TOP)
