@@ -35,9 +35,6 @@ export default function Register({ navigation }) {
         role: "owner",
       });
       await AsyncStorage.setItem("@access_token", data.access_token);
-      await AsyncStorage.setItem("@username", data.username);
-      await AsyncStorage.setItem("@id", String(data.id));
-      await AsyncStorage.setItem("@role", data.role);
       navigation.navigate("CreateCourt");
     } catch (error) {
       console.log(error);
