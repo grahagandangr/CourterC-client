@@ -31,6 +31,20 @@ export default function LoginOwner({ navigation }) {
       [name]: value,
     });
   };
+
+  const storeData = async (key, value) => {
+
+    try {
+
+      const jsonValue = JSON.stringify(value)
+
+      await AsyncStorage.setItem(`@${key}`, jsonValue)
+      
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   const loginHandler = async () => {
     if (!userInfo.password || !userInfo.email) {
       return ToastAndroid.show("Field cannot be empty", ToastAndroid.LONG, ToastAndroid.TOP);
@@ -42,10 +56,12 @@ export default function LoginOwner({ navigation }) {
         ...userInfo,
       });
       console.log(data);
+      await storeData('owner', data)
       await AsyncStorage.setItem("@access_token", data.access_token);
       await AsyncStorage.setItem("@username", data.username);
       await AsyncStorage.setItem("@id", String(data.id));
       await AsyncStorage.setItem("@role", data.role);
+      await AsyncStorage.setItem("@talkIdO", data.talkId.TalkJSID);
       navigation.navigate("TabOwner");
     } catch (error) {
       console.log(error)
