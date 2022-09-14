@@ -17,6 +17,9 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
 import { useEffect, useState } from "react";
 import { MaterialIcons, FontAwesome } from "@expo/vector-icons";
+import formatRupiah from "../helpers/formatRupiah";
+import { Fontisto } from "@expo/vector-icons";
+import { FontAwesome5 } from "@expo/vector-icons";
 
 const OrderCardOwner = ({ el, schedule }) => {
   const navigation = useNavigation();
@@ -67,11 +70,7 @@ const OrderCardOwner = ({ el, schedule }) => {
           },
         }
       );
-      ToastAndroid.show(
-        "Order completed, success claim money",
-        ToastAndroid.LONG,
-        ToastAndroid.BOTTOM
-      );
+      ToastAndroid.show("Order completed, success claim money", ToastAndroid.LONG, ToastAndroid.BOTTOM);
       navigation.navigate("HomeOwner");
     } catch (error) {
       console.log(error);
@@ -79,13 +78,10 @@ const OrderCardOwner = ({ el, schedule }) => {
   };
 
   return (
-    <View
-      style={tw`bg-white w-full my-1 rounded-xl shadow-md mx-auto text-center justify-center`}
-    >
-   
-      <View style={tw` flex flex-row`}>
+    <View style={tw`bg-white w-full my-1 rounded-xl shadow-md mx-auto text-center justify-center`}>
+      <View style={tw`flex flex-row flex-wrap justify-center`}>
         {el.orderDetails.map((orderDetail, idx) => (
-          <View key={idx} style={tw`my-2 px-1`}>
+          <View key={idx} style={tw`my-2 w-[47%] bg-white rounded-md shadow-md mx-1 py-2`}>
             {orderDetail.status === "Finished" && (
               <Text
                 style={tw`bg-lime-100 mt-1 ml-1 border border-lime-500 font-bold rounded-full text-center text-xs text-lime-500 px-1`}
@@ -108,49 +104,38 @@ const OrderCardOwner = ({ el, schedule }) => {
               </Text>
             )}
 
-            <Text
-              style={tw`ml-1 text-sm text-orange-500 font-bold text-center`}
-            >
-              {el.name}
-            </Text>
+            <Text style={tw`ml-1 text-sm text-orange-500 font-bold text-center`}>{el.name}</Text>
             <Text style={tw`ml-1 text-xs text-gray-500 text-center`}>
               {orderDetail.date} = {findInterval(orderDetail.ScheduleId)}
             </Text>
-            <Text style={tw`ml-1 text-xs text-gray-500 text-center`}>
-              {el.name}
-            </Text>
-            <Text style={tw`ml-1 text-xs text-gray-500 text-center`}>
-              IDR {orderDetail.price}
-            </Text>
+            <Text style={tw`ml-1 text-xs text-gray-500 text-center`}>{el.name}</Text>
+            <Text style={tw`ml-1 text-xs text-gray-500 text-center`}>{formatRupiah(orderDetail.price)}</Text>
 
-            {new Date().toISOString().slice(0, 10) >= orderDetail.date &&
-              orderDetail.status == "Reserved" && (
-                <TouchableOpacity
-                  onPress={() => claimHandler(orderDetail.id)}
-                  style={tw`bg-green-500 mt-2 ml-1 font-bold rounded-full text-center text-xs text-green-500 px-1 py-1.5`}
-                >
-                  <Text
-                    style={tw`text-white font-bold text-xs items-center justify-center content-center mx-auto`}
-                  >
-                    Claim Money
-                  </Text>
-                </TouchableOpacity>
-              )}
+            {new Date().toISOString().slice(0, 10) >= orderDetail.date && orderDetail.status == "Reserved" && (
+              <TouchableOpacity
+                onPress={() => claimHandler(orderDetail.id)}
+                style={tw`bg-green-500 mt-2 ml-1 font-bold rounded-full text-center text-xs text-green-500 px-1 py-1.5`}
+              >
+                <Text style={tw`text-white font-bold text-xs items-center justify-center content-center mx-auto`}>
+                  Claim Money
+                </Text>
+              </TouchableOpacity>
+            )}
           </View>
         ))}
       </View>
+
       <TouchableOpacity
         style={tw`flex flex-row mr-1 bg-blue-600 justify-center items-center content-center rounded-lg px-1.5`}
       >
         <MaterialIcons name="chat" size={16} color="white" />
-        <Text style={tw`text-white text-xs ml-1`} onPress={navigateToChat}>
+        <Text style={tw`text-white text-xs ml-1 py-0.5 `} onPress={navigateToChat}>
           Message
         </Text>
       </TouchableOpacity>
-      <Text style={tw`text-center font-bold text-orange-500 text-base mb-2`}>
-        Total: IDR {el.totalPrice}
-      </Text>
+      <Text style={tw`text-center font-bold text-orange-500 text-base mb-2`}>Total: {formatRupiah(el.totalPrice)}</Text>
     </View>
   );
 };
+
 export default OrderCardOwner;

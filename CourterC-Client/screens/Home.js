@@ -165,6 +165,7 @@ const Home = ({ navigation }) => {
           </ScrollView>
         </View>
       </View>
+      <Text style={tw`text-black text-center font-bold text-orange-500 text-xl pb-3`}>Nearby Courts</Text>
       {filteredCourts.length === 0 ? (
         <Text style={tw`text-base font-bold text-center`}>There is no court in your area</Text>
       ) : (
