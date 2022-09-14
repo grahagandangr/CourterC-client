@@ -8,6 +8,7 @@ import {
   ScrollView,
   FlatList,
   ActivityIndicator,
+  StyleSheet,
 } from "react-native";
 import tw from "twrnc";
 import { AntDesign } from "@expo/vector-icons";
@@ -23,7 +24,7 @@ import { useFocusEffect } from "@react-navigation/native";
 const OrderList = ({ navigation }) => {
   const [orders, setOrders] = useState([]);
   const [schedule, setSchedule] = useState([]);
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(true);
   const fetchOrders = async () => {
     try {
       let access_token = await AsyncStorage.getItem("@access_token");
@@ -35,7 +36,7 @@ const OrderList = ({ navigation }) => {
       // console.log(data);
       setOrders(data.order);
       setSchedule(data.schedule);
-      setLoading(false)
+      setLoading(false);
     } catch (error) {
       console.log(error);
     }
@@ -47,11 +48,13 @@ const OrderList = ({ navigation }) => {
       fetchOrders();
     }, [])
   );
-    if(loading){
-      return (
+  if (loading) {
+    return (
+      <SafeAreaView style={styles.container}>
         <ActivityIndicator size="large" color="00ff00" />
-      )
-    }
+      </SafeAreaView>
+    );
+  }
   return (
     <SafeAreaView>
       <View style={tw`flex justify-between w-full h-full content-center items-center`}>
@@ -70,7 +73,7 @@ const OrderList = ({ navigation }) => {
             <Text style={tw`m-auto text-base text-white font-semibold`}>Orders</Text>
           </View>
           <View>
-            <Text style={tw`m-auto text-base text-white font-semibold opacity-0`}>Orde</Text>
+            <Text style={tw`m-auto text-base text-white font-semibold opacity-0`}>Ord</Text>
           </View>
         </View>
         <ScrollView showsVerticalScrollIndicator={false} style={tw`ml-2 mb-4 mr-2 p-0.5 w-5/6`}>
@@ -84,4 +87,12 @@ const OrderList = ({ navigation }) => {
     </SafeAreaView>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "white",
+    justifyContent: "center",
+  },
+});
 export default OrderList;

@@ -28,8 +28,7 @@ export default function HomeOwner({ navigation }) {
   const windowWidth = Dimensions.get("window").width;
   const windowHeight = Dimensions.get("window").height;
   const [courts, setCourts] = useState({});
-  const [categoryCourt, setCategoryCourt] = useState([])
-
+  const [categoryCourt, setCategoryCourt] = useState([]);
 
   const fecthCourts = async () => {
     try {
@@ -37,14 +36,11 @@ export default function HomeOwner({ navigation }) {
       let { data } = await axios.get(url + `/owner/courts`, {
         headers: { access_token },
       });
-      console.log(data);
+      console.log(data, "ini data");
       setCourts(data[0]);
-      let { data: courtCategory } = await axios.get(
-        url + `/owner/courtCategories`,
-        {
-          headers: { access_token },
-        }
-      );
+      let { data: courtCategory } = await axios.get(url + `/owner/courtCategories`, {
+        headers: { access_token },
+      });
       setCategoryCourt(courtCategory.courtCategoryFiltered);
     } catch (error) {
       console.log(error);
@@ -59,20 +55,11 @@ export default function HomeOwner({ navigation }) {
     <SafeAreaView style={styles.container}>
       {courts.id && categoryCourt.length !== 0 ? (
         <>
-          <View
-            style={tw`bg-blue-600 w-full h-16 rounded-b-3xl opacity-85 px-8 mb-5`}
-          >
+          <View style={tw`bg-blue-600 w-full h-16 rounded-b-3xl opacity-85 px-8 mb-5`}>
             <View style={tw`flex flex-row mt-4 justify-between`}>
               <View style={tw`flex flex-row`}>
-                <Ionicons
-                  name="person"
-                  size={22}
-                  color="white"
-                  style={tw`mt-2 mr-1`}
-                />
-                <Text style={tw`text-white text-base font-bold mt-2`}>
-                  Hello, welcome back!
-                </Text>
+                <Ionicons name="person" size={22} color="white" style={tw`mt-2 mr-1`} />
+                <Text style={tw`text-white text-base font-bold mt-2`}>Hello, {courts.User.username}!</Text>
               </View>
             </View>
           </View>
@@ -87,9 +74,7 @@ export default function HomeOwner({ navigation }) {
             }}
           >
             <View style={tw`justify-center items-center py-15 mx-1`}>
-              <Text style={tw`text-white font-bold text-3xl text-center`}>
-                {courts.name}
-              </Text>
+              <Text style={tw`text-white font-bold text-3xl text-center`}>{courts.name}</Text>
               <TouchableOpacity
                 onPress={() =>
                   navigation.navigate("CreateCourtCategory", {
@@ -98,18 +83,13 @@ export default function HomeOwner({ navigation }) {
                 }
                 style={tw`bg-blue-600 rounded-xl px-2 py-1 shadow-lg mt-3`}
               >
-                <Text style={tw`text-white font-bold text-2xl text-center`}>
-                  Add Court Categories
-                </Text>
+                <Text style={tw`text-white font-bold text-2xl text-center`}>Add Court Categories</Text>
               </TouchableOpacity>
             </View>
           </ImageBackground>
-          <Text style={tw`text-2xl font-bold m-2 text-orange-500 `}>
-            All Courts
-          </Text>
+          <Text style={tw`text-2xl font-bold m-2 text-orange-500 `}>All Courts</Text>
           <ScrollView showsVerticalScrollIndicator={false}>
-            {categoryCourt.length !== 0 &&
-              categoryCourt.map((el, idx) => <OwnerCard key={idx} el={el} />)}
+            {categoryCourt.length !== 0 && categoryCourt.map((el, idx) => <OwnerCard key={idx} el={el} />)}
           </ScrollView>
         </>
       ) : (

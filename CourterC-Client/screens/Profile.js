@@ -8,6 +8,7 @@ import {
   ScrollView,
   FlatList,
   ActivityIndicator,
+  StyleSheet,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
@@ -23,6 +24,7 @@ import formatRupiah from "../helpers/formatRupiah";
 
 const Profile = ({ navigation }) => {
   const [user, setUser] = useState({});
+  const [loading, setLoading] = useState(true);
 
   const findUser = async () => {
     try {
@@ -33,6 +35,7 @@ const Profile = ({ navigation }) => {
         },
       });
       setUser(data);
+      setLoading(false);
     } catch (error) {
       console.log(error);
     }
@@ -43,7 +46,6 @@ const Profile = ({ navigation }) => {
       await AsyncStorage.clear();
       let role = user.role;
 
-  
       navigation.replace("Landing");
     } catch (error) {
       console.log(error);
@@ -56,6 +58,14 @@ const Profile = ({ navigation }) => {
       console.log("useEffect profile");
     }, [])
   );
+
+  if (loading) {
+    return (
+      <SafeAreaView style={styles.container}>
+        <ActivityIndicator size="large" color="00ff00" />
+      </SafeAreaView>
+    );
+  }
 
   return (
     <SafeAreaView style={tw`items-center justify-center`}>
@@ -98,4 +108,11 @@ const Profile = ({ navigation }) => {
   );
 };
 
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "white",
+    justifyContent: "center",
+  },
+});
 export default Profile;

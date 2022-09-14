@@ -9,20 +9,25 @@ import {
   FlatList,
   ActivityIndicator,
   ToastAndroid,
+  StyleSheet,
 } from "react-native";
 import tw from "twrnc";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { AntDesign } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import url from "../constant/url";
 import formatRupiah from "../helpers/formatRupiah";
+import { Fontisto } from "@expo/vector-icons";
+import { FontAwesome5 } from "@expo/vector-icons";
+import { useFocusEffect } from "@react-navigation/native";
 
 const Cart = ({ navigation }) => {
   const [myCart, setMyCart] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
+  const [loading, setLoading] = useState(true);
 
   const getCart = async () => {
     try {
@@ -35,13 +40,18 @@ const Cart = ({ navigation }) => {
         temp += el.price;
       });
       setTotalPrice(temp);
+      setLoading(false);
     } catch (error) {
       console.log(error);
     }
   };
-  useEffect(() => {
-    getCart();
-  }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      getCart();
+      console.log("useEffect cart");
+    }, [loading])
+  );
 
   const deleteCart = async (id) => {
     try {
@@ -49,6 +59,7 @@ const Cart = ({ navigation }) => {
       allCarts = JSON.parse(allCarts);
       let filtered = allCarts.filter((el) => el.id !== id);
       await AsyncStorage.setItem("@cart", JSON.stringify(filtered));
+      setLoading(true);
     } catch (error) {
       console.log(error);
     }
@@ -79,6 +90,15 @@ const Cart = ({ navigation }) => {
       console.log(error);
     }
   };
+
+  if (loading) {
+    return (
+      <SafeAreaView style={styles.container}>
+        <ActivityIndicator size="large" color="00ff00" />
+      </SafeAreaView>
+    );
+  }
+
   return (
     <SafeAreaView>
       <View style={tw`flex justify-between w-full h-full content-center items-center`}>
@@ -106,9 +126,9 @@ const Cart = ({ navigation }) => {
           ) : (
             myCart.map((el, idx) => {
               return (
-                <View key={idx} style={tw`bg-white h-16 w-full mt-1 rounded-xl shadow-md mt-2 mb-1 p-1`}>
+                <View key={idx} style={tw`bg-white w-full mt-1 rounded-xl shadow-md mt-2 mb-1 p-2`}>
                   <View style={tw`flex flex-row justify-between`}>
-                    <Text style={tw`text-sm font-bold text-orange-500 ml-1`}>{el.name}</Text>
+                    <Text style={tw`text-sm font-bold text-orange-500 ml-1 py-2`}>{el.name}</Text>
                     <TouchableOpacity
                       onPress={() => deleteCart(el.id)}
                       style={tw`text-sm font-bold text-gray-500 mr-1 mt-1`}
@@ -116,10 +136,11 @@ const Cart = ({ navigation }) => {
                       <Feather name="trash-2" size={18} color="black" />
                     </TouchableOpacity>
                   </View>
-                  <Text style={tw`text-xs font-semibold text-gray-500 ml-1`}>
-                    {el.date.toString().slice(0, 10)} = {el.interval}
+                  <Text style={tw`text-xs font-semibold text-orange-500 ml-1 py-0.5`}>
+                    <Fontisto name="date" size={11} color="#f97316" /> {el.date.toString().slice(0, 10)}
                   </Text>
-                  <Text style={tw`text-xs font-semibold text-gray-500 ml-1`}>
+                  <Text style={tw`text-xs font-semibold text-gray-500 ml-1 py-0.5`}>{el.interval}</Text>
+                  <Text style={tw`text-xs font-semibold text-gray-500 ml-1 py-0.5 pb-2`}>
                     <Text style={tw`mt-1`}>{formatRupiah(el.price)}</Text>
                   </Text>
                 </View>
@@ -142,4 +163,12 @@ const Cart = ({ navigation }) => {
     </SafeAreaView>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "white",
+    justifyContent: "center",
+  },
+});
 export default Cart;

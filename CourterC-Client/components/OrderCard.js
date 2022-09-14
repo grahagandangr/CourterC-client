@@ -77,15 +77,15 @@ const OrderCard = ({ el, schedule }) => {
               </Text>
             )}
 
-            <Text style={tw`ml-1 text-sm text-orange-500 font-bold text-center`}>{el.CourtCategory.Court.name}</Text>
-            <Text style={tw`ml-1 text-xs text-orange-500 text-center`}>
+            <Text style={tw`ml-1 text-sm text-orange-500 font-bold text-center py-2`}>{el.CourtCategory.Court.name}</Text>
+            <Text style={tw`ml-1 text-xs text-orange-500 text-center py-0.5`}>
               <Fontisto name="date" size={11} color="#f97316" /> {orderDetail.date}
             </Text>
-            <Text style={tw`ml-1 text-xs text-gray-500 text-center`}>
+            <Text style={tw`ml-1 text-xs text-gray-500 text-center py-0.5`}>
               <FontAwesome5 name="clock" size={11} color="black" /> {findInterval(orderDetail.ScheduleId)}
             </Text>
-            <Text style={tw`ml-1 text-xs text-gray-500 text-center`}>{el.CourtCategory.Category.name}</Text>
-            <Text style={tw`ml-1 text-xs text-gray-500 text-center`}>{formatRupiah(orderDetail.price)}</Text>
+            <Text style={tw`ml-1 text-xs text-gray-500 text-center py-0.5`}>{el.CourtCategory.Category.name}</Text>
+            <Text style={tw`ml-1 text-xs text-gray-500 text-center py-0.5`}>{formatRupiah(orderDetail.price)}</Text>
             {new Date() <= yesterday && orderDetail.status == "Reserved" && (
               <TouchableOpacity
                 onPress={() => cancelHandler(orderDetail.id)}
