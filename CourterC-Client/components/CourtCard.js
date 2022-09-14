@@ -31,7 +31,7 @@ export default function CourtCard({ navigation, el }) {
                 <Text style={tw`text-sm rounded-lg bg-blue-200 mx-1 w-14 justify-center items-center text-center p-1`}>
                   <AntDesign name="star" size={14} color="orange" /> 4.6
                 </Text>
-                <Text style={tw`text-sm rounded-lg bg-blue-200 mx-1 w-20 justify-center items-center text-center p-1`}>
+                <Text style={tw`text-sm rounded-lg bg-blue-200 mx-1 w-25 justify-center items-center text-center p-1`}>
                   IDR {el.price.toLocaleString("id-ID")}
                 </Text>
               </View>

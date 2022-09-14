@@ -25,15 +25,14 @@ const getData = async (key) => {
 };
 
 export default function Chat() {
-  const route = useRoute();
-  console.log(route, '<<<<<<?????');
+ 
 
   const [sender, setSender] = useState({});
   const [receiver, setReceiver] = useState({});
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    console.log("masuuukkk");
+
 
     (async () => {
       try {
@@ -61,9 +60,6 @@ export default function Chat() {
   if (isLoading) {
     return <ActivityIndicator />;
   }
-
-  console.log(sender, "<SENDer");
-  console.log(receiver, "<<<<<<<<<RECEIVER");
 
   const me = {
     id: sender.talkId.TalkJSID,
