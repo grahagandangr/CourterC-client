@@ -68,18 +68,20 @@ export default function DetailCourt({ navigation }) {
     })();
   }, []);
 
-  Location.getCurrentPositionAsync({
-    accuracy: Location.Accuracy.Highest,
-    maximumAge: 10000,
-    timeout: 5000,
-  })
-    .then(({ coords }) => {
-      setLocation({
-        latitude: coords.latitude,
-        longitude: coords.longitude,
-      });
+  useEffect(() => {
+    Location.getCurrentPositionAsync({
+      accuracy: Location.Accuracy.Highest,
+      maximumAge: 10000,
+      timeout: 5000,
     })
-    .catch((e) => console.log(e));
+      .then(({ coords }) => {
+        setLocation({
+          latitude: coords.latitude,
+          longitude: coords.longitude,
+        });
+      })
+      .catch((e) => console.log(e));
+  }, [])
 
   const getDetail = async () => {
     try {
@@ -93,8 +95,6 @@ export default function DetailCourt({ navigation }) {
           },
         }
       );
-      console.log(data, "<<<<<<");
-      console.log(formatdate, "<<<<<<<<<<<<<<");
       setLocationCourt({
         longitude: data.courtDetail.Court.location.coordinates[0],
         latitude: data.courtDetail.Court.location.coordinates[1],
@@ -110,7 +110,7 @@ export default function DetailCourt({ navigation }) {
     useCallback(() => {
       setDetail({});
       getDetail();
-      console.log("masuk");
+      console.log("UseEffect detail");
     }, [chooseDate])
   );
 

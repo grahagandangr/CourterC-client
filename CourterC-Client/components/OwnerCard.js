@@ -24,7 +24,6 @@ import formatRupiah from "../helpers/formatRupiah";
 const OwnerCard = ({ el }) => {
   const windowWidth = Dimensions.get("window").width;
   const windowHeight = Dimensions.get("window").height;
-  console.log(el.image);
   let imageToShow = el.image;
 
   if (imageToShow.includes("uploads")) {

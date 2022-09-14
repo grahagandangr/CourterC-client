@@ -41,7 +41,7 @@ const Cart = ({ navigation }) => {
   };
   useEffect(() => {
     getCart();
-  }, [myCart]);
+  }, []);
 
   const deleteCart = async (id) => {
     try {
@@ -74,7 +74,7 @@ const Cart = ({ navigation }) => {
       );
       await AsyncStorage.removeItem("@cart");
       ToastAndroid.show("Order sucess", ToastAndroid.LONG, ToastAndroid.BOTTOM);
-      navigation.navigate("OrderList");
+      navigation.navigate("OrderListPage");
     } catch (error) {
       console.log(error);
     }
@@ -129,7 +129,7 @@ const Cart = ({ navigation }) => {
         </ScrollView>
         <View style={tw`bg-white shadow-2xl justify-between w-full h-10 absolute bottom-0 flex flex-row`}>
           <Text style={tw`m-2 ml-4 font-bold`}>
-            <Text style={tw`mt-2 text-blue-500 font-semibold`}>Rp. {totalPrice}</Text>
+            <Text style={tw`mt-2 text-blue-500 font-semibold`}>{formatRupiah(totalPrice)}</Text>
           </Text>
           <TouchableOpacity
             onPress={orderHandler}

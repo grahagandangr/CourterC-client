@@ -42,8 +42,6 @@ export default function Login({navigation}) {
       let {data} = await axios.post(url + `/customer/login`, {
         ...userInfo
       })
-
-      console.log(data)
       await storeData('customer', data)
       await AsyncStorage.setItem("@access_token", data.access_token)
       await AsyncStorage.setItem("@username", data.username)

@@ -15,11 +15,13 @@ import { FontAwesome } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import CourtCard from "../components/CourtCard";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import * as Location from "expo-location";
 import axios from "axios";
 import url from "../constant/url";
+import { useFocusEffect } from "@react-navigation/native";
+
 
 const Home = ({ navigation }) => {
   const [token, setToken] = useState("");
@@ -45,18 +47,7 @@ const Home = ({ navigation }) => {
     })();
   }, []);
 
-  Location.getCurrentPositionAsync({
-    accuracy: Location.Accuracy.Highest,
-    maximumAge: 10000,
-    timeout: 5000,
-  })
-    .then(({ coords }) => {
-      setLocation({
-        latitude: coords.latitude,
-        longitude: coords.longitude,
-      });
-    })
-    .catch((e) => console.log(e));
+  
 
   const renderItem = ({ item }) => {
     return <CourtCard navigation={navigation} el={item} key={item.id} />;
@@ -118,13 +109,30 @@ const Home = ({ navigation }) => {
   }, [token]);
 
   useEffect(() => {
-    filteredCourtsHandler(chooseCategory);
-  }, [chooseCategory, courts]);
+    Location.getCurrentPositionAsync({
+      accuracy: Location.Accuracy.Highest,
+      maximumAge: 10000,
+      timeout: 5000,
+    })
+      .then(({ coords }) => {
+        setLocation({
+          latitude: coords.latitude,
+          longitude: coords.longitude,
+        });
+      })
+      .catch((e) => console.log(e));
+  }, [])
+
+  useFocusEffect(
+    useCallback(() => {
+      filteredCourtsHandler(chooseCategory);
+    }, [chooseCategory, courts])
+  );
 
   useEffect(() => {
     getCourts();
     getCategories();
-  }, [location.latitude, location.longitude]);
+  }, [location.longitude, location.latitude]);
 
   return (
     <SafeAreaView>

@@ -1,2 +1,2 @@
-const url = "https://6820-103-213-129-181.ap.ngrok.io";
+const url = "https://7bbf-125-164-121-53.eu.ngrok.io";
 export default url;

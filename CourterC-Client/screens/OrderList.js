@@ -23,6 +23,7 @@ import { useFocusEffect } from "@react-navigation/native";
 const OrderList = ({ navigation }) => {
   const [orders, setOrders] = useState([]);
   const [schedule, setSchedule] = useState([]);
+  const [loading, setLoading] = useState(true)
   const fetchOrders = async () => {
     try {
       let access_token = await AsyncStorage.getItem("@access_token");
@@ -34,6 +35,7 @@ const OrderList = ({ navigation }) => {
       // console.log(data);
       setOrders(data.order);
       setSchedule(data.schedule);
+      setLoading(false)
     } catch (error) {
       console.log(error);
     }
@@ -45,7 +47,11 @@ const OrderList = ({ navigation }) => {
       fetchOrders();
     }, [])
   );
-
+    if(loading){
+      return (
+        <ActivityIndicator size="large" color="00ff00" />
+      )
+    }
   return (
     <SafeAreaView>
       <View style={tw`flex justify-between w-full h-full content-center items-center`}>

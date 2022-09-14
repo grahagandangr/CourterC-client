@@ -25,27 +25,22 @@ const getData = async (key) => {
 };
 
 export default function Chat() {
- 
-
   const [sender, setSender] = useState({});
   const [receiver, setReceiver] = useState({});
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-
-
     (async () => {
       try {
-
         const owner = await getData("owner");
         const customer = await getData("customer");
 
         const role = await AsyncStorage.getItem("@role");
-    
-        if (role === 'customer'){
+
+        if (role === "customer") {
           setSender(customer);
           setReceiver(owner);
-        } else if(role === 'owner'){
+        } else if (role === "owner") {
           setSender(owner);
           setReceiver(customer);
         }
@@ -53,9 +48,8 @@ export default function Chat() {
       } catch (error) {
         console.log(error);
       }
-    })()
+    })();
   }, []);
-
 
   if (isLoading) {
     return <ActivityIndicator />;
@@ -87,8 +81,10 @@ export default function Chat() {
   conversationBuilder.setParticipant(other);
 
   return (
-    <TalkRn.Session appId="t5IUgmQn" me={me}>
-      <TalkRn.Chatbox conversationBuilder={conversationBuilder} />
-    </TalkRn.Session>
+    // <SafeAreaView>
+      <TalkRn.Session appId="t5IUgmQn" me={me}>
+        <TalkRn.Chatbox conversationBuilder={conversationBuilder} />
+      </TalkRn.Session>
+    // </SafeAreaView>
   );
 }

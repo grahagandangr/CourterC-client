@@ -53,6 +53,7 @@ const Profile = ({ navigation }) => {
   useFocusEffect(
     useCallback(() => {
       findUser();
+      console.log("useEffect profile");
     }, [])
   );
 
