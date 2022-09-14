@@ -152,14 +152,14 @@ const Home = ({ navigation }) => {
         <View style={tw`flex flex-row items-center content-center justify-center p-1`}>
           <ScrollView showsHorizontalScrollIndicator={false} horizontal style={tw`ml-2 my-2 mr-2 p-0.5`}>
             {categories.map((el) => (
-              <View key={el.id} style={tw`flex-col items-center mr-2 pb-3 pt-2 px-1.5 rounded-full mx-auto`}>
+              <View key={el.id} style={tw`flex-col items-center mr-2 pb-3 pt-2 px-1.5 rounded-full mx-auto `}>
                 <TouchableOpacity
                   onPress={() => setChooseCategory(el.name)}
                   style={tw`bg-white h-16 w-16 content-center justify-center items-center rounded-full`}
                 >
                   <MaterialCommunityIcons name={el.iconName} size={30} color="#fb923c" />
                 </TouchableOpacity>
-                <Text style={tw`text-xs mb-1 mt-1 text-black`}>{el.name}</Text>
+                <Text style={tw`text-xs mb-1 mt-1 text-slate-800`}>{el.name}</Text>
               </View>
             ))}
           </ScrollView>

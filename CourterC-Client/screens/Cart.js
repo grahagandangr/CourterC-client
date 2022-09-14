@@ -8,6 +8,7 @@ import {
   ScrollView,
   FlatList,
   ActivityIndicator,
+  ToastAndroid,
 } from "react-native";
 import tw from "twrnc";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -17,6 +18,7 @@ import { useState, useEffect } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import url from "../constant/url";
+import formatRupiah from "../helpers/formatRupiah";
 
 const Cart = ({ navigation }) => {
   const [myCart, setMyCart] = useState([]);
@@ -71,7 +73,8 @@ const Cart = ({ navigation }) => {
         }
       );
       await AsyncStorage.removeItem("@cart");
-      navigation.navigate("Home");
+      ToastAndroid.show("Order sucess", ToastAndroid.LONG, ToastAndroid.BOTTOM);
+      navigation.navigate("OrderList");
     } catch (error) {
       console.log(error);
     }
@@ -117,8 +120,7 @@ const Cart = ({ navigation }) => {
                     {el.date.toString().slice(0, 10)} = {el.interval}
                   </Text>
                   <Text style={tw`text-xs font-semibold text-gray-500 ml-1`}>
-                    Rp.
-                    <Text style={tw`mt-1`}>{el.price}</Text>
+                    <Text style={tw`mt-1`}>{formatRupiah(el.price)}</Text>
                   </Text>
                 </View>
               );

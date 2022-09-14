@@ -9,63 +9,58 @@ import {
   FlatList,
   ActivityIndicator,
   TouchableHighlight,
-  ToastAndroid
+  ToastAndroid,
 } from "react-native";
 import tw from "twrnc";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const ScheduleCard = ({ el, orders, date, CourtCategoryId, name, price }) => {
-    const addToCart = async () => {
-        try {
-            let cart = await AsyncStorage.getItem("@cart")
-            if(!cart){
-                const cart = JSON.stringify([{
-                    id: 1,
-                    price,
-                    interval: el.interval,
-                    ScheduleId: el.id,
-                    date: date,
-                    CourtCategoryId,
-                    name
-                }])
-                await AsyncStorage.setItem(`@cart`, cart)
-                ToastAndroid.show("Cart added, Go check your cart", ToastAndroid.LONG, ToastAndroid.TOP)
-            }else{
-                cart = JSON.parse(cart)
-                let id = cart.length + 1
-                cart.push({
-                    id,
-                    price,
-                    interval: el.interval,
-                    ScheduleId: el.id,
-                    date: date,
-                    CourtCategoryId,
-                    name
-                })
-                await AsyncStorage.setItem(`@cart`, JSON.stringify(cart))
-                ToastAndroid.show("Cart added, Go check your cart", ToastAndroid.LONG, ToastAndroid.TOP)
-
-            }
-        } catch (error) {
-            console.log(error);
-        }
+  const addToCart = async () => {
+    try {
+      let cart = await AsyncStorage.getItem("@cart");
+      if (!cart) {
+        const cart = JSON.stringify([
+          {
+            id: 1,
+            price,
+            interval: el.interval,
+            ScheduleId: el.id,
+            date: date,
+            CourtCategoryId,
+            name,
+          },
+        ]);
+        await AsyncStorage.setItem(`@cart`, cart);
+        ToastAndroid.show("Cart added, Go check your cart", ToastAndroid.LONG, ToastAndroid.TOP);
+      } else {
+        cart = JSON.parse(cart);
+        let id = cart.length + 1;
+        cart.push({
+          id,
+          price,
+          interval: el.interval,
+          ScheduleId: el.id,
+          date: date,
+          CourtCategoryId,
+          name,
+        });
+        await AsyncStorage.setItem(`@cart`, JSON.stringify(cart));
+        ToastAndroid.show("Cart added, Go check your cart", ToastAndroid.LONG, ToastAndroid.TOP);
+      }
+    } catch (error) {
+      console.log(error);
     }
+  };
   return (
     <>
       {!orders.find((e) => e.ScheduleId === el.id) ? (
-        <TouchableHighlight
-          onPress={addToCart}
-          style={tw`w-1/3 h-auto my-2`}
-          underlayColor="white"
-          activeOpacity={0.9}
-        >
-          <View
-            style={tw`items-center content-center mx-auto h-30 bg-white shadow-lg m-2 rounded-xl`}
-          >
+        <TouchableHighlight onPress={addToCart} style={tw`w-1/3 h-auto my-2`} underlayColor="white" activeOpacity={0.9}>
+          <View style={tw`items-center content-center mx-auto h-30 bg-white shadow-lg m-2 rounded-xl`}>
             <View style={tw`m-auto`}>
-              <Text
-                style={tw`items-center content-center justify-center text-center text-xs font-bold`}
-              >
+              <Text style={tw`items-center content-center justify-center text-center text-xs font-bold`}>
+                {date.toLocaleString().slice(0, 10)}
+              </Text>
+              <Text style={tw`items-center content-center justify-center text-center text-xs font-bold`}>
                 {el.interval}
               </Text>
               <Text
@@ -83,13 +78,9 @@ const ScheduleCard = ({ el, orders, date, CourtCategoryId, name, price }) => {
           underlayColor="white"
           activeOpacity={0.9}
         >
-          <View
-            style={tw`items-center content-center mx-auto h-30 bg-white shadow-lg m-2 rounded-xl`}
-          >
+          <View style={tw`items-center content-center mx-auto h-30 bg-white shadow-lg m-2 rounded-xl`}>
             <View style={tw`m-auto`}>
-              <Text
-                style={tw`items-center content-center justify-center text-center text-xs font-bold`}
-              >
+              <Text style={tw`items-center content-center justify-center text-center text-xs font-bold`}>
                 {el.interval}
               </Text>
               <Text
