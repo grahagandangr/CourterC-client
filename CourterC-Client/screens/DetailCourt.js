@@ -85,11 +85,14 @@ export default function DetailCourt({ navigation }) {
     try {
       const access_token = await AsyncStorage.getItem("@access_token");
       const formatdate = chooseDate.toISOString().slice(0, 10);
-      const { data } = await axios.get(url + `/customer/courts/${+route.params.courtId}?date=${formatdate}`, {
-        headers: {
-          access_token,
-        },
-      });
+      const { data } = await axios.get(
+        url + `/customer/courts/${+route.params.courtId}?date=${formatdate}`,
+        {
+          headers: {
+            access_token,
+          },
+        }
+      );
       console.log(data, "<<<<<<");
       console.log(formatdate, "<<<<<<<<<<<<<<");
       setLocationCourt({
@@ -111,8 +114,32 @@ export default function DetailCourt({ navigation }) {
     }, [chooseDate])
   );
 
-  const navigateToChat = () => {
-    navigation.navigate("Chat");
+
+  const storeData = async (key, value) => {
+    try {
+      const jsonValue = JSON.stringify(value);
+
+      await AsyncStorage.setItem(`@${key}`, jsonValue);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const navigateToChat = async () => {
+    try {
+      const talkId = {
+        id: detail.Court.User.id,
+        name: detail.Court.User.username,
+        email: detail.Court.User.email,
+        role: detail.Court.User.role,
+        TalkJSID: `C-${detail.Court.User.id}`,
+      };
+
+      await storeData("owner", {talkId});
+      navigation.navigate("Chat");
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -213,24 +240,40 @@ export default function DetailCourt({ navigation }) {
           ) : (
             <ScrollView>
               <View style={tw`flex flex-row mt-4 mb-2 ml-3`}>
-                <EvilIcons name="location" size={20} color="#f97316" style={tw``} />
-                <Text style={tw`text-xs text-orange-500 font-semibold`}>{detail.Court.address}</Text>
+                <EvilIcons
+                  name="location"
+                  size={20}
+                  color="#f97316"
+                  style={tw``}
+                />
+                <Text style={tw`text-xs text-orange-500 font-semibold`}>
+                  {detail.Court.address}
+                </Text>
               </View>
               <View style={tw`flex flex-row justify-between`}>
-                <Text style={tw`ml-4 font-semibold text-xl mb-1`}>{detail.Court.name}</Text>
+                <Text style={tw`ml-4 font-semibold text-xl mb-1`}>
+                  {detail.Court.name}
+                </Text>
                 <TouchableOpacity
                   style={tw`flex flex-row mr-2.5 bg-blue-600 justify-center items-center content-center rounded-lg px-1.5`}
                 >
                   <MaterialIcons name="chat" size={16} color="white" />
-                  <Text style={tw`text-white text-xs ml-1`} onPress={navigateToChat}>
+                  <Text
+                    style={tw`text-white text-xs ml-1`}
+                    onPress={navigateToChat}
+                  >
                     Message
                   </Text>
                 </TouchableOpacity>
               </View>
-              <Text style={tw`ml-4 mr-4 text-xs text-gray-500 mb-1 font-semibold`}>
+              <Text
+                style={tw`ml-4 mr-4 text-xs text-gray-500 mb-1 font-semibold`}
+              >
                 0{detail.Court.openHour}:00 - {detail.Court.closeHour}:00
               </Text>
-              <Text style={tw`ml-4 mr-4 text-xs text-gray-500 font-semibold`}>{detail.Court.description}</Text>
+              <Text style={tw`ml-4 mr-4 text-xs text-gray-500 font-semibold`}>
+                {detail.Court.description}
+              </Text>
               <View style={tw`flex-row mt-2 ml-4`}>
                 <Text
                   style={tw`text-xs rounded-lg bg-orange-300 mx-1  justify-center items-center text-center py-1 px-1.5`}
@@ -241,14 +284,20 @@ export default function DetailCourt({ navigation }) {
                   {formatRupiah(detail.price)}
                 </Text>
               </View>
-              <Text style={tw`text-center font-bold text-base mt-1`}>Order Schedule</Text>
+              <Text style={tw`text-center font-bold text-base mt-1`}>
+                Order Schedule
+              </Text>
               <TouchableOpacity
                 onPress={() => {
                   setOpenDate(true);
                 }}
                 style={tw`justify-center content-center flex flex-row m-auto items-center mt-4 bg-orange-500 opacity-85 shadow-xl w-5/6 h-10 rounded-lg`}
               >
-                <MaterialCommunityIcons name="calendar-blank-outline" size={20} color="black" />
+                <MaterialCommunityIcons
+                  name="calendar-blank-outline"
+                  size={20}
+                  color="black"
+                />
                 <Text style={tw`font-bold text-black ml-1`}>Pick Date</Text>
               </TouchableOpacity>
               <DateTimePickerModal

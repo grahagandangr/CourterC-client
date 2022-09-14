@@ -43,11 +43,8 @@ const Profile = ({ navigation }) => {
       await AsyncStorage.clear();
       let role = user.role;
 
-      if (role == "owner") {
-        navigation.replace("LoginOwner");
-      } else if (role == "customer") {
-        navigation.replace("Login");
-      }
+  
+      navigation.replace("Landing");
     } catch (error) {
       console.log(error);
     }

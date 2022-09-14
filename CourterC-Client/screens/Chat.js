@@ -12,6 +12,7 @@ import tw from "twrnc";
 import { SafeAreaView } from "react-native-safe-area-context";
 import ChatCard from "../components/ChatCard";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useFocusEffect, useRoute } from "@react-navigation/native";
 
 const getData = async (key) => {
   try {
@@ -24,13 +25,14 @@ const getData = async (key) => {
 };
 
 export default function Chat() {
+ 
 
   const [sender, setSender] = useState({});
   const [receiver, setReceiver] = useState({});
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    console.log("masuuukkk");
+
 
     (async () => {
       try {
@@ -58,9 +60,6 @@ export default function Chat() {
   if (isLoading) {
     return <ActivityIndicator />;
   }
-
-  console.log(sender, "<SENDer");
-  console.log(receiver, "<<<<<<<<<RECEIVER");
 
   const me = {
     id: sender.talkId.TalkJSID,
