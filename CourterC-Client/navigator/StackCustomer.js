@@ -20,10 +20,10 @@ const StackCustomer = () => {
         name="DetailCourt"
         component={DetailCourt}
         options={{
-          headerShown: true,
-          headerTransparent: true,
-          headerLargeTitle: false,
-          title: "",
+          headerShown: false,
+          // headerTransparent: true,
+          // headerLargeTitle: false,
+          // title: "",
         }}
       />
       <Stack.Screen

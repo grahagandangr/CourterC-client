@@ -29,6 +29,7 @@ import { useFocusEffect, useRoute } from "@react-navigation/native";
 import url from "../constant/url";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
+import formatRupiah from "../helpers/formatRupiah";
 
 export default function DetailCourt({ navigation }) {
   const route = useRoute();
@@ -38,7 +39,7 @@ export default function DetailCourt({ navigation }) {
   const windowHeight = Dimensions.get("window").height;
   const [openDate, setOpenDate] = useState(false);
   const [date, setDate] = useState(today);
-  const [chooseDate, setChooseDate] = useState(new Date());
+  const [chooseDate, setChooseDate] = useState(today);
   const [detail, setDetail] = useState({});
   const [schedule, setSchedule] = useState([]);
   const [orders, setOrders] = useState([]);
@@ -111,12 +112,36 @@ export default function DetailCourt({ navigation }) {
   );
 
   const navigateToChat = () => {
-    navigation.navigate('Chat')
-  }
+    navigation.navigate("Chat");
+  };
 
   return (
     <SafeAreaView nestedScrollEnabled={true}>
       <View style={tw`w-full h-full content-center items-center`}>
+        <View style={tw`bg-blue-600 w-full h-10 rounded-b-3xl opacity-85 px-8 flex flex-row justify-between`}>
+          <View>
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate("Home");
+              }}
+              style={tw`bg-white p-0.5 content-center m-auto rounded-lg`}
+            >
+              <AntDesign name="left" size={16} color="blue" />
+            </TouchableOpacity>
+          </View>
+          <View>
+            <Text style={tw`m-auto text-base text-white font-semibold`}>Detail Court</Text>
+          </View>
+          <View style={tw`mt-1 h-8 w-8 content-center items-center rounded-xl justify-center`}>
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate("Cart");
+              }}
+            >
+              <FontAwesome name="shopping-basket" size={18} color="white" />
+            </TouchableOpacity>
+          </View>
+        </View>
         {location.latitude === 0 || locationCourt.latitude === 0 ? (
           <View
             style={{
@@ -194,10 +219,12 @@ export default function DetailCourt({ navigation }) {
               <View style={tw`flex flex-row justify-between`}>
                 <Text style={tw`ml-4 font-semibold text-xl mb-1`}>{detail.Court.name}</Text>
                 <TouchableOpacity
-                  style={tw`flex flex-row mr-1 bg-blue-600 justify-center items-center content-center rounded-lg px-1.5`}
+                  style={tw`flex flex-row mr-2.5 bg-blue-600 justify-center items-center content-center rounded-lg px-1.5`}
                 >
                   <MaterialIcons name="chat" size={16} color="white" />
-                  <Text style={tw`text-white text-xs ml-1`} onPress={navigateToChat}>Message</Text>
+                  <Text style={tw`text-white text-xs ml-1`} onPress={navigateToChat}>
+                    Message
+                  </Text>
                 </TouchableOpacity>
               </View>
               <Text style={tw`ml-4 mr-4 text-xs text-gray-500 mb-1 font-semibold`}>
@@ -211,7 +238,7 @@ export default function DetailCourt({ navigation }) {
                   <AntDesign name="star" size={12} color="#ea580c" /> 4.6
                 </Text>
                 <Text style={tw`text-xs rounded-lg bg-orange-300 mx-1 justify-center items-center text-center p-1`}>
-                  IDR {detail.price}
+                  {formatRupiah(detail.price)}
                 </Text>
               </View>
               <Text style={tw`text-center font-bold text-base mt-1`}>Order Schedule</Text>
@@ -257,16 +284,8 @@ export default function DetailCourt({ navigation }) {
                   })}
                 </View>
               )}
-              <View style={tw`pb-8`}>
-                <TouchableOpacity
-                  onPress={() => {
-                    navigation.navigate("Cart");
-                  }}
-                  style={tw`justify-center content-center flex flex-row m-auto items-center mt-4 bg-blue-600 opacity-85 shadow-xl w-5/6 h-10 rounded-lg`}
-                >
-                  <FontAwesome name="shopping-basket" size={20} color="white" />
-                  <Text style={tw`font-bold text-white ml-1`}>Go To Cart</Text>
-                </TouchableOpacity>
+              <View style={tw`pb-15`}>
+              
               </View>
             </ScrollView>
           )}
