@@ -30,7 +30,7 @@ import url from "../constant/url";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 
-export default function DetailCourt({ navigation }) {
+export default function DetailCourt({navigation }) {
   const route = useRoute();
   var today = new Date();
   today.setDate(today.getDate() + 2);
@@ -111,7 +111,7 @@ export default function DetailCourt({ navigation }) {
   );
 
   const navigateToChat = () => {
-    navigation.navigate('Chat')
+    navigation.navigate('Chat', {id: route.params.courtId, data:route.params.courtId})
   }
 
   return (
