@@ -13,7 +13,8 @@ import {
   Dimensions,
   StyleSheet,
 } from "react-native";
-import { AntDesign, Ionicons } from "@expo/vector-icons";
+import { AntDesign, Ionicons, FontAwesome } from "@expo/vector-icons";
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { SafeAreaView } from "react-native-safe-area-context";
 import tw from "twrnc";
 import OwnerCard from "../components/OwnerCard";
@@ -36,12 +37,9 @@ export default function HomeOwner() {
         headers: { access_token },
       });
       setCourts(data[0]);
-      let { data: courtCategory } = await axios.get(
-        url + `/owner/courtCategories`,
-        {
-          headers: { access_token },
-        }
-      );
+      let { data: courtCategory } = await axios.get(url + `/owner/courtCategories`, {
+        headers: { access_token },
+      });
       setCategoryCourt(courtCategory.courtCategoryFiltered);
     } catch (error) {
       console.log(error);
@@ -57,6 +55,14 @@ export default function HomeOwner() {
     <SafeAreaView style={styles.container}>
       {courts.id && categoryCourt.length !== 0 ? (
         <>
+          <View style={tw`bg-blue-600 w-full h-16 rounded-b-3xl opacity-85 px-8 mb-5`}>
+            <View style={tw`flex flex-row mt-4 justify-between`}>
+              <View style={tw`flex flex-row`}>
+                <Ionicons name="person" size={22} color="white" style={tw`mt-2 mr-1`} />
+                <Text style={tw`text-white text-base font-bold mt-2`}>Hello, welcome back!</Text>
+              </View>
+            </View>
+          </View>
           <ImageBackground
             style={{
               width: windowWidth * 0.9,
@@ -68,22 +74,16 @@ export default function HomeOwner() {
             }}
           >
             <View style={tw`justify-center items-center py-15 mx-1`}>
-              <Text style={tw`text-white font-bold text-3xl text-center`}>
-                {courts.name}
-              </Text>
-              <TouchableOpacity
-                style={tw`bg-blue-600 rounded-xl px-2 py-1 shadow-lg mt-3`}
-              >
-                <Text style={tw`text-white font-bold text-2xl text-center`}>
-                  Add Court Categories
-                </Text>
+              <Text style={tw`text-white font-bold text-3xl text-center`}>{courts.name}</Text>
+              <TouchableOpacity style={tw`bg-blue-600 rounded-xl px-2 py-1 shadow-lg mt-3`}>
+                <Text style={tw`text-white font-bold text-2xl text-center`}>Add Court Categories</Text>
               </TouchableOpacity>
             </View>
           </ImageBackground>
-          <Text style={tw`text-2xl font-bold m-2`}>All Courts</Text>
+          <Text style={tw`text-2xl font-bold m-2 text-orange-500 `}>All Courts</Text>
           <ScrollView showsVerticalScrollIndicator={false}>
             {categoryCourt.map((el, idx) => (
-              <OwnerCard key={idx} el={el}/>
+              <OwnerCard key={idx} el={el} />
             ))}
           </ScrollView>
         </>
