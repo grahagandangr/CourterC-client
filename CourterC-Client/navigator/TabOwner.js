@@ -57,7 +57,6 @@ const TabOwner = () => {
         name="Chat"
         component={Chat}
         options={{
-          headerShown: false,
           tabBarShowLabel: false,
           tabBarIcon: ({ focused }) =>
             focused ? (

@@ -15,6 +15,7 @@ import tw from "twrnc";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const ScheduleCard = ({ el, orders, date, CourtCategoryId, name, price }) => {
+  console.log(orders);
   const addToCart = async () => {
     try {
       let cart = await AsyncStorage.getItem("@cart");
@@ -53,7 +54,7 @@ const ScheduleCard = ({ el, orders, date, CourtCategoryId, name, price }) => {
   };
   return (
     <>
-      {!orders.find((e) => e.ScheduleId === el.id) ? (
+      {!orders.find((e) => e.ScheduleId === el.id && e.status == "Reserved") ? (
         <TouchableHighlight onPress={addToCart} style={tw`w-1/3 h-auto my-2`} underlayColor="white" activeOpacity={0.9}>
           <View style={tw`items-center content-center mx-auto h-30 bg-white shadow-lg m-2 rounded-xl`}>
             <View style={tw`m-auto`}>
@@ -80,6 +81,9 @@ const ScheduleCard = ({ el, orders, date, CourtCategoryId, name, price }) => {
         >
           <View style={tw`items-center content-center mx-auto h-30 bg-white shadow-lg m-2 rounded-xl`}>
             <View style={tw`m-auto`}>
+              <Text style={tw`items-center content-center justify-center text-center text-xs font-bold`}>
+                {date.toLocaleString().slice(0, 10)}
+              </Text>
               <Text style={tw`items-center content-center justify-center text-center text-xs font-bold`}>
                 {el.interval}
               </Text>

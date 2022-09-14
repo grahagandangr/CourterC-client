@@ -56,25 +56,16 @@ const TabCustomer = () => {
         name="Chat"
         component={Chat}
         options={{
-          headerShown: false,
           tabBarShowLabel: false,
           tabBarIcon: ({ focused }) =>
             focused ? (
               <View style={tw`items-center justify-center content-center`}>
-                <Ionicons
-                  name="ios-chatbubbles-outline"
-                  size={19}
-                  color="#2563eb"
-                />
+                <Ionicons name="ios-chatbubbles-outline" size={19} color="#2563eb" />
                 <Text style={tw`font-bold text-xl -mt-4 text-blue-800`}>.</Text>
               </View>
             ) : (
               <View style={tw`items-center justify-center content-center`}>
-                <Ionicons
-                  name="ios-chatbubbles-outline"
-                  size={19}
-                  color="gray"
-                />
+                <Ionicons name="ios-chatbubbles-outline" size={19} color="gray" />
               </View>
             ),
         }}
@@ -88,20 +79,12 @@ const TabCustomer = () => {
           tabBarIcon: ({ focused }) =>
             focused ? (
               <View style={tw`items-center justify-center content-center`}>
-                <Ionicons
-                  name="ios-person-circle-outline"
-                  size={19}
-                  color="#2563eb"
-                />
+                <Ionicons name="ios-person-circle-outline" size={19} color="#2563eb" />
                 <Text style={tw`font-bold text-xl -mt-4 text-blue-800`}>.</Text>
               </View>
             ) : (
               <View style={tw`items-center justify-center content-center`}>
-                <Ionicons
-                  name="ios-person-circle-outline"
-                  size={19}
-                  color="gray"
-                />
+                <Ionicons name="ios-person-circle-outline" size={19} color="gray" />
               </View>
             ),
         }}

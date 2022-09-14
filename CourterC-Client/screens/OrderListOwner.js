@@ -8,6 +8,7 @@ import {
   ScrollView,
   FlatList,
   ActivityIndicator,
+  StyleSheet,
 } from "react-native";
 import tw from "twrnc";
 import { AntDesign } from "@expo/vector-icons";
@@ -24,6 +25,7 @@ import OrderCardOwner from "../components/OrderCardOwner";
 const OrderListOwner = ({ navigation }) => {
   const [orders, setOrders] = useState([]);
   const [schedule, setSchedule] = useState([]);
+  const [loading, setLoading] = useState(true);
   const fetchOrders = async () => {
     try {
       let access_token = await AsyncStorage.getItem("@access_token");
@@ -34,6 +36,7 @@ const OrderListOwner = ({ navigation }) => {
       });
       setOrders(data.ownerOrders);
       setSchedule(data.schedule);
+      setLoading(false);
     } catch (error) {
       console.log(error);
     }
@@ -45,6 +48,14 @@ const OrderListOwner = ({ navigation }) => {
       fetchOrders();
     }, [])
   );
+
+  if (loading) {
+    return (
+      <SafeAreaView style={styles.container}>
+        <ActivityIndicator size="large" color="00ff00" />
+      </SafeAreaView>
+    );
+  }
 
   return (
     <SafeAreaView>
@@ -64,7 +75,7 @@ const OrderListOwner = ({ navigation }) => {
             <Text style={tw`m-auto text-base text-white font-semibold`}>Orders</Text>
           </View>
           <View>
-            <Text style={tw`m-auto text-base text-white font-semibold opacity-0`}>Orde</Text>
+            <Text style={tw`m-auto text-base text-white font-semibold opacity-0`}>Ord</Text>
           </View>
         </View>
         <ScrollView showsVerticalScrollIndicator={false} style={tw`ml-2 mb-4 mr-2 p-0.5 w-5/6`}>
@@ -78,4 +89,12 @@ const OrderListOwner = ({ navigation }) => {
     </SafeAreaView>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "white",
+    justifyContent: "center",
+  },
+});
 export default OrderListOwner;

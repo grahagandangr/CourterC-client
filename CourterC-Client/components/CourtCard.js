@@ -2,8 +2,15 @@ import { View, Text, StyleSheet, Image, TouchableOpacity, TouchableHighlight } f
 import tw from "twrnc";
 import { AntDesign, Ionicons, EvilIcons } from "@expo/vector-icons";
 import formatRupiah from "../helpers/formatRupiah";
+import url from "../constant/url";
 
 export default function CourtCard({ navigation, el }) {
+  let imageToShow = el.image;
+
+  if (imageToShow.includes("uploads")) {
+    imageToShow = `${url}/${imageToShow}`;
+  }
+
   return (
     <>
       <TouchableHighlight
@@ -20,12 +27,12 @@ export default function CourtCard({ navigation, el }) {
             <Image
               style={tw`w-full h-50 rounded-xl`}
               source={{
-                uri: el.image,
+                uri: imageToShow,
               }}
             />
             <View style={tw`p-3`}>
-              <Text style={tw`text-lg font-bold text-slate-800`}>{el.name}</Text>
-              <Text style={tw`text-base text-slate-800`}>
+              <Text style={tw`text-lg font-bold text-slate-800 py-2`}>{el.name}</Text>
+              <Text style={tw`text-base text-slate-800 py-1`}>
                 <EvilIcons name="location" size={20} color="#1e293b" />
                 {el.address}
               </Text>

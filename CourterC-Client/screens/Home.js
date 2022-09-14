@@ -8,6 +8,7 @@ import {
   ScrollView,
   FlatList,
   ActivityIndicator,
+  StyleSheet,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import tw from "twrnc";
@@ -22,7 +23,6 @@ import axios from "axios";
 import url from "../constant/url";
 import { useFocusEffect } from "@react-navigation/native";
 
-
 const Home = ({ navigation }) => {
   const [token, setToken] = useState("");
   const [username, setUsername] = useState("");
@@ -36,6 +36,7 @@ const Home = ({ navigation }) => {
   });
   const [chooseCategory, setChooseCategory] = useState("All");
   const [filteredCourts, setFilteredCourts] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     (async () => {
@@ -46,8 +47,6 @@ const Home = ({ navigation }) => {
       }
     })();
   }, []);
-
-  
 
   const renderItem = ({ item }) => {
     return <CourtCard navigation={navigation} el={item} key={item.id} />;
@@ -76,6 +75,7 @@ const Home = ({ navigation }) => {
         }
       );
       setCourts(data.courtCategoryFiltered);
+      setLoading(false);
     } catch (error) {
       console.log(error);
     }
@@ -121,7 +121,7 @@ const Home = ({ navigation }) => {
         });
       })
       .catch((e) => console.log(e));
-  }, [])
+  }, []);
 
   useFocusEffect(
     useCallback(() => {
@@ -134,6 +134,13 @@ const Home = ({ navigation }) => {
     getCategories();
   }, [location.longitude, location.latitude]);
 
+  if (loading) {
+    return (
+      <SafeAreaView style={styles.container}>
+        <ActivityIndicator size="large" color="00ff00" />
+      </SafeAreaView>
+    );
+  }
   return (
     <SafeAreaView>
       {/* Header */}
@@ -188,4 +195,13 @@ const Home = ({ navigation }) => {
     </SafeAreaView>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "white",
+    justifyContent: "center",
+  },
+});
+
 export default Home;

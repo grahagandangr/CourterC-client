@@ -79,6 +79,14 @@ const OrderCardOwner = ({ el, schedule }) => {
 
   return (
     <View style={tw`bg-white w-full my-1 rounded-xl shadow-md mx-auto text-center justify-center`}>
+      <TouchableOpacity
+        style={tw`flex flex-row mr-1 bg-blue-600 justify-center items-center content-center rounded-lg px-2.5 mx-auto mt-2`}
+      >
+        <MaterialIcons name="chat" size={16} color="white" />
+        <Text style={tw`text-white text-xs ml-1 py-0.5 `} onPress={navigateToChat}>
+          Message
+        </Text>
+      </TouchableOpacity>
       <View style={tw`flex flex-row flex-wrap justify-center`}>
         {el.orderDetails.map((orderDetail, idx) => (
           <View key={idx} style={tw`my-2 w-[47%] bg-white rounded-md shadow-md mx-1 py-2`}>
@@ -104,12 +112,14 @@ const OrderCardOwner = ({ el, schedule }) => {
               </Text>
             )}
 
-            <Text style={tw`ml-1 text-sm text-orange-500 font-bold text-center`}>{el.name}</Text>
-            <Text style={tw`ml-1 text-xs text-gray-500 text-center`}>
-              {orderDetail.date} = {findInterval(orderDetail.ScheduleId)}
+            <Text style={tw`ml-1 text-sm text-orange-500 font-bold text-center py-2`}>{el.name}</Text>
+            <Text style={tw`ml-1 text-xs text-orange-500 text-center py-0.5`}>
+              <Fontisto name="date" size={11} color="#f97316" /> {orderDetail.date}
             </Text>
-            <Text style={tw`ml-1 text-xs text-gray-500 text-center`}>{el.name}</Text>
-            <Text style={tw`ml-1 text-xs text-gray-500 text-center`}>{formatRupiah(orderDetail.price)}</Text>
+            <Text style={tw`ml-1 text-xs text-gray-500 text-center py-0.5`}>
+              <FontAwesome5 name="clock" size={11} color="black" /> {findInterval(orderDetail.ScheduleId)}
+            </Text>
+            <Text style={tw`ml-1 text-xs text-gray-500 text-center py-0.5 `}>{formatRupiah(orderDetail.price)}</Text>
 
             {new Date().toISOString().slice(0, 10) >= orderDetail.date && orderDetail.status == "Reserved" && (
               <TouchableOpacity
@@ -125,14 +135,7 @@ const OrderCardOwner = ({ el, schedule }) => {
         ))}
       </View>
 
-      <TouchableOpacity
-        style={tw`flex flex-row mr-1 bg-blue-600 justify-center items-center content-center rounded-lg px-1.5`}
-      >
-        <MaterialIcons name="chat" size={16} color="white" />
-        <Text style={tw`text-white text-xs ml-1 py-0.5 `} onPress={navigateToChat}>
-          Message
-        </Text>
-      </TouchableOpacity>
+      
       <Text style={tw`text-center font-bold text-orange-500 text-base mb-2`}>Total: {formatRupiah(el.totalPrice)}</Text>
     </View>
   );

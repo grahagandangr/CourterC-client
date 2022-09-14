@@ -60,9 +60,9 @@ const OwnerCard = ({ el }) => {
             }}
           />
           <View style={tw`mt-2 my-auto w-1/2`}>
-            <MaterialCommunityIcons name="soccer-field" size={24} color="#f97316" />
-            <Text style={tw`text-lg font-bold text-orange-500`}>{el.name}</Text>
-            <Text style={tw`text-lg font-bold`}> {formatRupiah(el.price)}</Text>
+            <MaterialCommunityIcons name="soccer-field" size={24} color="#f97316" style={tw`py-1`} />
+            <Text style={tw`text-lg font-bold text-orange-500 py-1`}>{el.name}</Text>
+            <Text style={tw`text-lg font-bold py-1`}> {formatRupiah(el.price)}</Text>
           </View>
         </View>
       </View>
