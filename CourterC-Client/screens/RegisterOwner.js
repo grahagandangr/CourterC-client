@@ -30,15 +30,11 @@ export default function Register({ navigation }) {
       return ToastAndroid.show("Field cannot be empty", ToastAndroid.SHORT, ToastAndroid.TOP);
     }
     try {
-      console.log(url+ '/owner/register');
       let { data } = await axios.post(url + `/owner/register`, {
         ...userInfo,
         role: "owner",
       });
       await AsyncStorage.setItem("@access_token", data.access_token);
-      await AsyncStorage.setItem("@username", data.username);
-      await AsyncStorage.setItem("@id", String(data.id));
-      await AsyncStorage.setItem("@role", data.role);
       navigation.navigate("CreateCourt");
     } catch (error) {
       console.log(error);

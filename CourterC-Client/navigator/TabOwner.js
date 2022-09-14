@@ -5,7 +5,7 @@ import { Ionicons } from "@expo/vector-icons";
 import tw from "twrnc";
 import HomeOwner from "../screens/HomeOwner";
 import Profile from "../screens/Profile";
-import OrderListPage from "../screens/OrderList";
+import OrderListOwner from "../screens/OrderListOwner";
 import { AntDesign } from "@expo/vector-icons";
 import Chat from "../screens/Chat";
 
@@ -35,8 +35,8 @@ const TabOwner = () => {
         }}
       />
       <Tab.Screen
-        name="OrderListPage"
-        component={OrderListPage}
+        name="OrderListOwner"
+        component={OrderListOwner}
         options={{
           headerShown: false,
           tabBarShowLabel: false,

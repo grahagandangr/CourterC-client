@@ -37,7 +37,7 @@ export default function MidtransWebView() {
 
   const statusHandler = (param) => {
     const { url } = param;
-    // console.log(url);
+    console.log(url);
 
     if (url.includes("status_code=200")) {
       updateBalanceHandler();

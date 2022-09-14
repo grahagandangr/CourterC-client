@@ -19,20 +19,20 @@ import url from "../constant/url";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useState, useEffect, useCallback } from "react";
 import { useFocusEffect } from "@react-navigation/native";
+import OrderCardOwner from "../components/OrderCardOwner";
 
-const OrderList = ({ navigation }) => {
+const OrderListOwner = ({ navigation }) => {
   const [orders, setOrders] = useState([]);
   const [schedule, setSchedule] = useState([]);
   const fetchOrders = async () => {
     try {
       let access_token = await AsyncStorage.getItem("@access_token");
-      let { data } = await axios.get(`${url}/customer/courts-orderList`, {
+      let { data } = await axios.get(`${url}/owner/courts-orderLists`, {
         headers: {
           access_token,
         },
       });
-      // console.log(data);
-      setOrders(data.order);
+      setOrders(data.ownerOrders);
       setSchedule(data.schedule);
     } catch (error) {
       console.log(error);
@@ -71,11 +71,11 @@ const OrderList = ({ navigation }) => {
           {orders.length === 0 ? (
             <Text style={tw`text-center text-black font-bold text-base`}>No Order yet</Text>
           ) : (
-            orders.map((el) => <OrderCard schedule={schedule} el={el} key={el.id} />)
+            orders.map((el, idx) => <OrderCardOwner schedule={schedule} el={el} key={idx} />)
           )}
         </ScrollView>
       </View>
     </SafeAreaView>
   );
 };
-export default OrderList;
+export default OrderListOwner;
