@@ -110,6 +110,10 @@ export default function DetailCourt({ navigation }) {
     }, [chooseDate])
   );
 
+  const navigateToChat = () => {
+    navigation.navigate('Chat')
+  }
+
   return (
     <SafeAreaView nestedScrollEnabled={true}>
       <View style={tw`w-full h-full content-center items-center`}>
@@ -193,7 +197,7 @@ export default function DetailCourt({ navigation }) {
                   style={tw`flex flex-row mr-1 bg-blue-600 justify-center items-center content-center rounded-lg px-1.5`}
                 >
                   <MaterialIcons name="chat" size={16} color="white" />
-                  <Text style={tw`text-white text-xs ml-1`}>Message</Text>
+                  <Text style={tw`text-white text-xs ml-1`} onPress={navigateToChat}>Message</Text>
                 </TouchableOpacity>
               </View>
               <Text style={tw`ml-4 mr-4 text-xs text-gray-500 mb-1 font-semibold`}>
