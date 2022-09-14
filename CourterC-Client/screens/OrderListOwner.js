@@ -49,18 +49,25 @@ const OrderListOwner = ({ navigation }) => {
   return (
     <SafeAreaView>
       <View style={tw`flex justify-between w-full h-full content-center items-center`}>
-        <View style={tw`bg-blue-600 w-full h-10 rounded-b-3xl opacity-85 px-8 flex flex-row`}>
-          <TouchableOpacity
-            onPress={() => {
-              navigation.navigate("HomeOwner");
-            }}
-            style={tw`bg-white px-1 content-center mt-2 mb-2 justify-center items-center rounded-lg`}
-          >
-            <AntDesign name="left" size={16} color="blue" />
-          </TouchableOpacity>
-          <Text style={tw`m-auto text-base text-white font-semibold`}>Orders</Text>
+        <View style={tw`bg-blue-600 w-full h-10 rounded-b-3xl opacity-85 px-8 flex flex-row justify-between`}>
+          <View>
+            <TouchableOpacity
+              onPress={() => {
+                navigation.goBack();
+              }}
+              style={tw`bg-white p-0.5 content-center m-auto rounded-lg`}
+            >
+              <AntDesign name="left" size={16} color="blue" />
+            </TouchableOpacity>
+          </View>
+          <View>
+            <Text style={tw`m-auto text-base text-white font-semibold`}>Orders</Text>
+          </View>
+          <View>
+            <Text style={tw`m-auto text-base text-white font-semibold opacity-0`}>Orde</Text>
+          </View>
         </View>
-        <ScrollView style={tw`ml-2 mb-4 mr-2 p-0.5 w-5/6`}>
+        <ScrollView showsVerticalScrollIndicator={false} style={tw`ml-2 mb-4 mr-2 p-0.5 w-5/6`}>
           {orders.length === 0 ? (
             <Text style={tw`text-center text-black font-bold text-base`}>No Order yet</Text>
           ) : (

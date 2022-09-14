@@ -49,7 +49,7 @@ const OrderCard = ({ el, schedule }) => {
     }
   };
   return (
-    <View style={tw`bg-white w-full my-1 border rounded-xl border-slate-800 mx-auto text-center  justify-center`}>
+    <View style={tw`bg-white w-full my-1 rounded-xl shadow-md mx-auto text-center justify-center`}>
       <View style={tw` flex flex-row`}>
         {el.OrderDetails.map((orderDetail) => (
           <View key={orderDetail.id} style={tw`my-2 px-1`}>
@@ -80,7 +80,7 @@ const OrderCard = ({ el, schedule }) => {
               {orderDetail.date} = {findInterval(orderDetail.ScheduleId)}
             </Text>
             <Text style={tw`ml-1 text-xs text-gray-500 text-center`}>{el.CourtCategory.Category.name}</Text>
-            <Text style={tw`ml-1 text-xs text-gray-500 text-center`}>{orderDetail.price}</Text>
+            <Text style={tw`ml-1 text-xs text-gray-500 text-center`}>IDR {orderDetail.price}</Text>
             {new Date() <= yesterday && orderDetail.status == "Reserved" && (
               <TouchableOpacity
                 onPress={() => cancelHandler(orderDetail.id)}
@@ -94,7 +94,7 @@ const OrderCard = ({ el, schedule }) => {
           </View>
         ))}
       </View>
-      <Text style={tw`text-center font-bold text-orange-500 text-base mb-2`}>IDR {el.totalPrice}</Text>
+      <Text style={tw`text-center font-bold text-orange-500 text-base mb-2`}>Total: IDR {el.totalPrice}</Text>
     </View>
   );
 };

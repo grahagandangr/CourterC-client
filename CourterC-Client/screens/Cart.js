@@ -60,9 +60,9 @@ const Cart = ({ navigation }) => {
       await axios.post(
         url + "/customer/pay-orders",
         {
-            cart: allCart,
-            totalPrice,
-            status: "Reserved"
+          cart: allCart,
+          totalPrice,
+          status: "Reserved",
         },
         {
           headers: {
@@ -70,48 +70,42 @@ const Cart = ({ navigation }) => {
           },
         }
       );
-      await AsyncStorage.removeItem("@cart")
-      navigation.navigate("Home")
+      await AsyncStorage.removeItem("@cart");
+      navigation.navigate("Home");
     } catch (error) {
       console.log(error);
     }
   };
   return (
     <SafeAreaView>
-      <View
-        style={tw`flex justify-between w-full h-full content-center items-center`}
-      >
-        <View
-          style={tw`bg-blue-600 w-full h-10 rounded-b-3xl opacity-85 px-8 flex flex-row`}
-        >
-          <TouchableOpacity
-            onPress={() => {
-              navigation.navigate("Home");
-            }}
-            style={tw`bg-white px-1 content-center mt-2 mb-2 justify-center items-center rounded-lg`}
-          >
-            <AntDesign name="left" size={16} color="blue" />
-          </TouchableOpacity>
-          <Text style={tw`m-auto text-base text-white font-semibold`}>
-            My Cart
-          </Text>
+      <View style={tw`flex justify-between w-full h-full content-center items-center`}>
+        <View style={tw`bg-blue-600 w-full h-10 rounded-b-3xl opacity-85 px-8 flex flex-row justify-between`}>
+          <View>
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate("Home");
+              }}
+              style={tw`bg-white p-0.5 content-center m-auto rounded-lg`}
+            >
+              <AntDesign name="left" size={16} color="blue" />
+            </TouchableOpacity>
+          </View>
+          <View>
+            <Text style={tw`m-auto text-base text-white font-semibold`}>Cart</Text>
+          </View>
+          <View>
+            <Text style={tw`m-auto text-base text-white font-semibold opacity-0`}>Orde</Text>
+          </View>
         </View>
         <ScrollView style={tw`ml-2 mb-4 mr-2 p-0.5 w-5/6`}>
           {!myCart || myCart.length === 0 ? (
-            <Text style={tw`text-center font-bold text-base`}>
-              Your cart is empty
-            </Text>
+            <Text style={tw`text-center font-bold text-base`}>Your cart is empty</Text>
           ) : (
             myCart.map((el, idx) => {
               return (
-                <View
-                  key={idx}
-                  style={tw`bg-white h-16 w-full mt-1 border border-slate-800`}
-                >
+                <View key={idx} style={tw`bg-white h-16 w-full mt-1 rounded-xl shadow-md mt-2 mb-1 p-1`}>
                   <View style={tw`flex flex-row justify-between`}>
-                    <Text style={tw`text-sm font-bold text-orange-500 ml-1`}>
-                      {el.name}
-                    </Text>
+                    <Text style={tw`text-sm font-bold text-orange-500 ml-1`}>{el.name}</Text>
                     <TouchableOpacity
                       onPress={() => deleteCart(el.id)}
                       style={tw`text-sm font-bold text-gray-500 mr-1 mt-1`}
@@ -131,13 +125,9 @@ const Cart = ({ navigation }) => {
             })
           )}
         </ScrollView>
-        <View
-          style={tw`bg-white shadow-2xl justify-between w-full h-10 absolute bottom-0 flex flex-row`}
-        >
+        <View style={tw`bg-white shadow-2xl justify-between w-full h-10 absolute bottom-0 flex flex-row`}>
           <Text style={tw`m-2 ml-4 font-bold`}>
-            <Text style={tw`mt-2 text-blue-500 font-semibold`}>
-              Rp. {totalPrice}
-            </Text>
+            <Text style={tw`mt-2 text-blue-500 font-semibold`}>Rp. {totalPrice}</Text>
           </Text>
           <TouchableOpacity
             onPress={orderHandler}

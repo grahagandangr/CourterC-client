@@ -133,7 +133,7 @@ const Home = ({ navigation }) => {
         <View style={tw`flex flex-row mt-4 justify-between`}>
           <View style={tw`flex flex-row`}>
             <Ionicons name="person" size={22} color="white" style={tw`mt-2 mr-1`} />
-            <Text style={tw`text-white text-base font-bold mt-2`}>Welcome Back {username}</Text>
+            <Text style={tw`text-white text-base font-bold mt-2`}>Hello, {username}!</Text>
           </View>
           <View style={tw`mt-1 bg-blue-400 h-8 w-8 content-center items-center rounded-xl justify-center`}>
             <TouchableOpacity
@@ -173,6 +173,7 @@ const Home = ({ navigation }) => {
           renderItem={renderItem}
           keyExtractor={(item) => item.id}
           ListFooterComponent={<View style={tw`mb-80`} />}
+          showsVerticalScrollIndicator={false}
         />
       )}
     </SafeAreaView>
