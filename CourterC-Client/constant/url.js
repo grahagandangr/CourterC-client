@@ -1,2 +1,2 @@
-const url = "https://1ff1-103-213-129-181.ap.ngrok.io";
+const url = "https://courterc.herokuapp.com";
 export default url;

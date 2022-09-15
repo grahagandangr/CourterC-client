@@ -100,6 +100,7 @@ export default function DetailCourt({ navigation }) {
         latitude: data.courtDetail.Court.location.coordinates[1],
       });
       setDetail(data.courtDetail);
+      console.log(detail);
       setSchedule(data.filteredSchedules);
       setOrders(data.bookedSchedule);
     } catch (error) {
@@ -110,6 +111,7 @@ export default function DetailCourt({ navigation }) {
     useCallback(() => {
       setDetail({});
       getDetail();
+      console.log(detail.Court);
       console.log("UseEffect detail");
     }, [chooseDate])
   );
@@ -252,7 +254,7 @@ export default function DetailCourt({ navigation }) {
               </View>
               <View style={tw`flex flex-row justify-between`}>
                 <Text style={tw`ml-4 font-semibold text-xl mb-1`}>
-                  {detail.Court.name}
+                  {detail.Court.name} - {detail.Category.name}
                 </Text>
                 <TouchableOpacity
                   style={tw`flex flex-row mr-2.5 bg-blue-600 justify-center items-center content-center rounded-lg px-1.5`}
